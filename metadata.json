@@ -1,0 +1,6 @@
+{
+  "name": "KLEOS",
+  "description": "Una experiencia cinematográfica y de marca premium para KLEOS, redefiniendo el posicionamiento y la percepción digital del valor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
