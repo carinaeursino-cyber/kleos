@@ -259,7 +259,7 @@ export default function PortfolioSection() {
                 and giving it perfect breathing room on the left edge! */}
             <div
               ref={mockup1Ref}
-              className="absolute w-[240px] md:w-[285px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
+              className="absolute w-[240px] md:w-[285px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px] -mt-16 md:-mt-24 lg:-mt-28"
               style={!hasCompletedRound ? { transform: "translateY(0px) scale(1)", opacity: 1 } : undefined}
             >
               <div className="rotate-3d-iphone-17 w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
@@ -366,7 +366,7 @@ export default function PortfolioSection() {
             {/* BUGFIX 6: Nudged right by md:translate-x-[24px] to perfectly align with mockup 1 */}
             <div
               ref={mockup3Ref}
-              className="absolute w-[270px] md:w-[335px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
+              className="absolute w-[270px] md:w-[335px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px] -mt-16 md:-mt-24 lg:-mt-28"
             >
               <div className="rotate-3d-iphone-17 w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
                 
@@ -493,7 +493,7 @@ export default function PortfolioSection() {
                 while leaving extensive breathing room on the left so it never overlaps the text! */}
             <div
               ref={mockup2Ref}
-              className="absolute w-[380px] md:w-[600px] lg:w-[680px] aspect-[16/10] will-change-transform z-10 md:-right-4 lg:-right-8"
+              className="absolute w-[380px] md:w-[590px] lg:w-[660px] aspect-[16/10] will-change-transform z-10 md:-right-20 lg:-right-28 xl:-right-32"
             >
               {/* .rotate-3d-tv applies the custom wide-angle horizontal rotation loop */}
               <div className="rotate-3d-tv w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
