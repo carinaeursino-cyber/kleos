@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
 import BearVideo from "./BearVideo";
 import LambdaCanvas from "../../LambdaCanvas";
+import GoldenSpiral from "./GoldenSpiral";
 
 const SLIDE_DURATIONS = [4000, 3000, 6000]; // oso: 4s, transición: 3s, lambda: 6s
 const TOTAL_SLIDES = 3;
@@ -122,16 +123,14 @@ export default function HeroSection({ onEnterSite }: HeroSectionProps) {
       </motion.div>
 
       {/* ═══════════════════════════════════════════ */}
-      {/* SLIDE 1: Transición sutil — punto dorado     */}
+      {/* SLIDE 1: Transición sutil — espiral dorada  */}
       {/* ═══════════════════════════════════════════ */}
       <motion.div
         className="absolute inset-0 z-10 flex items-center justify-center bg-[#050505] px-6"
         animate={{ x: `${(1 - slide) * 100}%` }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="flex flex-col items-center gap-6">
-          <div className="w-[2px] h-[2px] bg-gold/50 rounded-full animate-pulse" />
-        </div>
+        <GoldenSpiral isActive={slide === 1} />
       </motion.div>
 
       {/* ═══════════════════════════════════════════ */}

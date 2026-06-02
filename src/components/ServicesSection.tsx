@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { servicesData } from "../data";
@@ -6,11 +6,13 @@ import { servicesData } from "../data";
 export default function ServicesSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
   const watermarkRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+
+    const cards = gsap.utils.toArray(".discipline-card");
 
     const ctx = gsap.context(() => {
       // ── Watermark parallax ──
@@ -33,31 +35,63 @@ export default function ServicesSection() {
 
       // ── Headline reveal ──
       gsap.from(headlineRef.current, {
-        y: 100,
+        y: 80,
         opacity: 0,
-        duration: 1.4,
+        duration: 1.2,
         ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 75%",
+          start: "top 80%",
           toggleActions: "play none none none",
         },
       });
 
-      // ── List items stagger reveal ──
-      if (listRef.current) {
-        const items = listRef.current.querySelectorAll(".service-item");
-        gsap.from(items, {
-          y: 60,
-          opacity: 0,
-          duration: 1,
-          stagger: 0.08,
-          ease: "power3.out",
+      // ── Premium 3D Card Stacking Deck Animation (GSAP Pinned Scroll) ──
+      if (cards.length > 0) {
+        const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: listRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
+            trigger: sectionRef.current,
+            start: "top top",
+            end: `+=${cards.length * 100}%`, // Scroll space proportional to deck size (600vh)
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
           },
+        });
+
+        // We animate card 1 to 5 (card 0 starts visible and active)
+        cards.forEach((card, idx) => {
+          if (idx === 0) return; // Skip card 0
+
+          // 1. Current card slides up from bottom of screen to its center base
+          tl.fromTo(
+            card,
+            { y: "100vh", opacity: 0.8 },
+            {
+              y: "0vh",
+              opacity: 1,
+              duration: 1,
+              ease: "none",
+            }
+          );
+
+          // 2. Simultaneously scale down and translate up ALL cards stacked underneath
+          for (let j = 0; j < idx; j++) {
+            const targetScale = 1 - (idx - j) * 0.035; // 3D Layering shrinkage
+            const targetTranslateY = -(idx - j) * 12; // Layer spacing offset up
+
+            tl.to(
+              cards[j],
+              {
+                scale: targetScale,
+                y: `${targetTranslateY}px`,
+                opacity: 1 - (idx - j) * 0.12, // Slight darkening to increase focus on top card
+                duration: 1,
+                ease: "none",
+              },
+              "<" // Start at exact same time as current card slides up
+            );
+          }
         });
       }
     }, sectionRef);
@@ -69,7 +103,7 @@ export default function ServicesSection() {
     <section
       ref={sectionRef}
       id="services-section"
-      className="relative py-32 md:py-48 lg:py-64 bg-[#050505] text-white border-t border-white/10 overflow-hidden font-sans"
+      className="relative min-h-screen bg-[#050505] text-white border-t border-white/10 overflow-hidden font-sans"
     >
       {/* Decorative watermark — CON PARALLAX */}
       <div
@@ -79,55 +113,87 @@ export default function ServicesSection() {
         Disciplinas
       </div>
 
-      {/* Subtle ambient gold glow que se expande con hover de la lista */}
+      {/* Subtle background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/[0.008] rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
-        {/* ================= HEADLINE OVERSIZED ================= */}
-        <div className="mb-24 md:mb-40">
+      {/* Pinned viewport layout */}
+      <div className="h-screen w-full flex flex-col justify-between py-16 md:py-20 px-6 md:px-12 lg:px-24 max-w-5xl mx-auto relative z-10 overflow-hidden">
+        
+        {/* FIXED HEADER: Remains visible at the top of the screen as the cards stack */}
+        <div className="w-full">
           <h2
             ref={headlineRef}
-            className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-serif tracking-tight leading-[0.85] text-neutral-100 font-light max-w-5xl"
+            className="text-3xl md:text-5xl lg:text-6xl font-serif tracking-tight text-neutral-100 font-light"
           >
-            Disciplinas de{" "}
-            <span className="text-gold italic">Posicionamiento.</span>
+            Disciplinas de <span className="text-gold italic font-normal">Posicionamiento.</span>
           </h2>
         </div>
 
-        {/* ================= LISTA EDITORIAL — LÍNEA DORADA EXPANDIBLE ================= */}
-        <div ref={listRef} className="border-t border-white/10">
+        {/* CARDS CONTAINER: Anchors the absolute stacked cards */}
+        <div
+          ref={cardsContainerRef}
+          className="relative flex-1 w-full flex items-center justify-center my-8 md:my-10 h-[55vh]"
+        >
           {servicesData.map((service, idx) => (
             <div
               key={service.id}
-              className="service-item group border-b border-white/10 py-8 md:py-10 flex items-start gap-6 md:gap-10 cursor-default hover:bg-white/[0.02] transition-colors duration-500 px-4 -mx-4 relative overflow-hidden cursor-hover"
+              className="discipline-card absolute w-full max-w-4xl h-[52vh] bg-[#0B0B0C] border border-gold/15 hover:border-gold/30 rounded-2xl flex flex-col justify-between p-8 md:p-12 shadow-[0_25px_60px_rgba(0,0,0,0.85)] group transition-colors duration-300 will-change-transform"
+              style={{
+                zIndex: idx + 1, // Layering sequentially
+              }}
             >
-              {/* Línea dorada expandible desde la izquierda al hover */}
-              <div className="absolute bottom-0 left-0 h-[2px] bg-gold/50 w-0 group-hover:w-full transition-all duration-700 ease-out" />
-              {/* Barra vertical dorada sutil */}
-              <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gold/0 group-hover:bg-gold/40 transition-colors duration-500" />
+              {/* Subtle top laser glow accent */}
+              <div className="absolute top-0 left-12 w-1/4 h-[1px] bg-gradient-to-r from-gold/0 via-gold/30 to-gold/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Elegant golden side bar */}
+              <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gold/20 group-hover:bg-gold/45 rounded-l-2xl transition-colors duration-500" />
 
-              {/* Número grande */}
-              <span className="font-mono text-3xl md:text-4xl lg:text-5xl font-black text-gold/10 group-hover:text-gold/30 transition-colors duration-500 shrink-0 w-16 md:w-24 text-right leading-none pt-1">
-                {String(idx + 1).padStart(2, "0")}
-              </span>
+              {/* CARD HEADER */}
+              <div className="flex justify-between items-center border-b border-white/5 pb-4 md:pb-6 select-none">
+                <span className="font-mono text-xs text-gold font-bold">
+                  [{String(idx + 1).padStart(2, "0")} / 06]
+                </span>
+                <span className="font-mono text-[9px] md:text-[10px] tracking-widest text-neutral-500 uppercase">
+                  {service.subtitle}
+                </span>
+              </div>
 
-              {/* Contenido */}
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 md:gap-8">
-                  <h3 className="text-xl md:text-2xl lg:text-3xl font-serif text-neutral-100 font-light tracking-tight group-hover:text-white transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-neutral-500 uppercase shrink-0 group-hover:text-gold/60 transition-colors duration-300">
-                    {service.subtitle}
-                  </span>
-                </div>
-                <p className="mt-3 text-neutral-400 text-sm md:text-base font-light leading-relaxed max-w-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
+              {/* CARD BODY */}
+              <div className="my-auto">
+                <h3 className="text-2xl md:text-4xl font-serif text-neutral-100 font-light tracking-tight group-hover:text-gold transition-colors duration-500">
+                  {service.title}
+                </h3>
+                <p className="mt-4 text-neutral-400 text-xs md:text-sm lg:text-base font-light leading-relaxed max-w-2xl font-sans">
                   {service.description}
                 </p>
+              </div>
+
+              {/* CARD FOOTER — Deliverables styled as highly-scannable column bullets */}
+              <div className="border-t border-white/5 pt-4 md:pt-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 select-none">
+                {service.deliverables?.map((del, dIdx) => (
+                  <div
+                    key={dIdx}
+                    className="flex items-start gap-2 text-[9px] md:text-[10px] font-mono text-neutral-500"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-gold/50 mt-1 shrink-0" />
+                    <span className="leading-snug">{del}</span>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
         </div>
+
+        {/* BOTTOM METADATA RAIL */}
+        <div className="w-full flex justify-between items-center border-t border-white/5 pt-4 select-none">
+          <span className="font-mono text-[8px] text-neutral-600 uppercase tracking-[0.25em]">
+            SYSTEM_DISCIPLINES // 2026
+          </span>
+          <span className="font-mono text-[8px] text-gold uppercase tracking-[0.3em]">
+            INGENIERÍA DE POSICIONAMIENTO
+          </span>
+        </div>
+
       </div>
     </section>
   );

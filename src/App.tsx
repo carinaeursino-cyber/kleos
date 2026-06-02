@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroSection from "./components/hero/HeroSection";
 import StatementSection from "./StatementSection";
 import ParadoxSection from "./components/ParadoxSection";
-import ProcessSection from "./components/ProcessSection";
+import PortfolioSection from "./components/PortfolioSection";
 import ServicesSection from "./components/ServicesSection";
 import BrandingPhilosophies from "./components/BrandingPhilosophies";
 import CustomCursor from "./CustomCursor";
@@ -16,8 +16,7 @@ import CustomCursor from "./CustomCursor";
 const RAIL_ITEMS = [
   { id: "paradox-section", label: "PARADOJA", idx: 0 },
   { id: "services-section", label: "DISCIPLINAS", idx: 1 },
-  { id: "process-section", label: "PROCESO", idx: 2 },
-  { id: "philosophy-section", label: "AXIOMAS", idx: 3 },
+  { id: "philosophy-section", label: "AXIOMAS", idx: 2 },
 ];
 
 const LEFT_ITEMS = RAIL_ITEMS.filter((i) => i.idx % 2 === 0);
@@ -37,6 +36,7 @@ export default function App() {
       smoothWheel: true,
     });
     lenisRef.current = lenis;
+    (window as any).lenis = lenis;
 
     let rafId: number;
     const raf = (time: number) => {
@@ -312,9 +312,10 @@ export default function App() {
                 id="statement-percepcion"
                 text="Tu trabajo no es el problema."
                 highlight="La percepción de tu trabajo sí lo es."
+                variant="deblur"
               />
               <ParadoxSection />
-              <ProcessSection />
+              <PortfolioSection />
               <StatementSection
                 id="statement-inconfundible"
                 text="No se trata de ser el mejor."
