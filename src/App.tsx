@@ -24,7 +24,9 @@ const RIGHT_ITEMS = RAIL_ITEMS.filter((i) => i.idx % 2 === 1);
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [siteVisible, setSiteVisible] = useState(false);
+  // TEMP DEV MODE: show the site immediately while we polish inner sections.
+  // Restore to false when we want the hero/gate experience active again.
+  const [siteVisible, setSiteVisible] = useState(true);
   const [activeSection, setActiveSection] = useState(0);
 
   const lenisRef = useRef<Lenis | null>(null);
@@ -37,6 +39,10 @@ export default function App() {
     });
     lenisRef.current = lenis;
     (window as any).lenis = lenis;
+
+    // Sincroniza Lenis con ScrollTrigger para evitar tirones al entrar en secciones pinned.
+    // No modifica timelines ni coreografías; solo mantiene actualizado el cálculo de scroll.
+    lenis.on("scroll", ScrollTrigger.update);
 
     let rafId: number;
     const raf = (time: number) => {
@@ -294,7 +300,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO */}
+      {/* HERO visible, gate/block removed in dev mode: content is already available below */}
       <HeroSection onEnterSite={handleEnterSite} />
 
       {/* CONTENIDO */}
@@ -320,6 +326,7 @@ export default function App() {
                 id="statement-inconfundible"
                 text="No se trata de ser el mejor."
                 highlight="Se trata de ser inconfundible."
+                variant="principle"
               />
               <ServicesSection />
               <BrandingPhilosophies />

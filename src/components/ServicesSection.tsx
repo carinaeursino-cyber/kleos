@@ -127,6 +127,9 @@ export default function ServicesSection() {
           >
             Disciplinas de <span className="text-gold italic font-normal">Posicionamiento.</span>
           </h2>
+          <p className="mt-5 max-w-2xl font-sans text-sm md:text-base text-neutral-500 font-light leading-relaxed">
+            Servicios que diseñamos para construir una presencia digital coherente.
+          </p>
         </div>
 
         {/* CARDS CONTAINER: Anchors the absolute stacked cards */}
@@ -187,7 +190,7 @@ export default function ServicesSection() {
         {/* BOTTOM METADATA RAIL */}
         <div className="w-full flex justify-between items-center border-t border-white/5 pt-4 select-none">
           <span className="font-mono text-[8px] text-neutral-600 uppercase tracking-[0.25em]">
-            SYSTEM_DISCIPLINES // 2026
+            
           </span>
           <span className="font-mono text-[8px] text-gold uppercase tracking-[0.3em]">
             INGENIERÍA DE POSICIONAMIENTO

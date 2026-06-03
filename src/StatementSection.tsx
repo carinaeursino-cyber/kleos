@@ -7,7 +7,7 @@ interface StatementSectionProps {
   highlight: string;
   id?: string;
   className?: string;
-  variant?: "parallax" | "deblur" | "window"; // Selector de modos de diseño
+  variant?: "parallax" | "deblur" | "window" | "principle";
 }
 
 export default function StatementSection({
@@ -15,22 +15,24 @@ export default function StatementSection({
   highlight,
   id,
   className = "",
-  variant = "parallax", // Por defecto inicia en parallax
+  variant = "parallax",
 }: StatementSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
 
+  const isDeblur = variant === "deblur";
+  const isPrinciple = variant === "principle";
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // ─── PROPUESTA I: El Paneo Tridimensional (Parallax horizontal) ───────
+      // ─── PROPUESTA I: Paneo horizontal ───
       if (variant === "parallax" && textRef.current) {
         const line1 = textRef.current.querySelector(".statement-line-1");
         const line2 = textRef.current.querySelector(".statement-line-2");
 
-        // Línea 1 se desplaza suavemente hacia la derecha con el scroll
         gsap.fromTo(
           line1,
           { x: "-8vw" },
@@ -46,7 +48,6 @@ export default function StatementSection({
           }
         );
 
-        // Línea 2 se desplaza suavemente hacia la izquierda con el scroll
         gsap.fromTo(
           line2,
           { x: "8vw" },
@@ -62,7 +63,6 @@ export default function StatementSection({
           }
         );
 
-        // Animación suave de entrada vertical para ambas líneas (Bidireccional)
         gsap.fromTo(
           [line1, line2],
           { opacity: 0, y: 30 },
@@ -76,13 +76,13 @@ export default function StatementSection({
               trigger: sectionRef.current,
               start: "top 75%",
               end: "bottom 25%",
-              toggleActions: "play reverse play reverse", // Activo al subir y bajar
+              toggleActions: "play reverse play reverse",
             },
           }
         );
       }
 
-      // ─── PROPUESTA II: El Enfoque de Lente Gaseoso (De-blur palabra por palabra) ───
+      // ─── PROPUESTA II: De-blur palabra por palabra ───
       if (variant === "deblur" && textRef.current) {
         const words = textRef.current.querySelectorAll(".deblur-word");
 
@@ -100,21 +100,20 @@ export default function StatementSection({
             scale: 1,
             y: 0,
             duration: 1.6,
-            stagger: 0.08, // Transición de enfoque elástico palabra por palabra
+            stagger: 0.08,
             ease: "power3.out",
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 70%",
               end: "bottom 30%",
-              toggleActions: "play reverse play reverse", // Activo al subir y bajar
+              toggleActions: "play reverse play reverse",
             },
           }
         );
       }
 
-      // ─── PROPUESTA III: La Revelación bajo Sombra (Parallax vertical) ───
+      // ─── PROPUESTA III: Ventana / parallax vertical ───
       if (variant === "window" && textRef.current) {
-        // Desfase vertical (el texto viaja un poco más lento que el scroll)
         gsap.fromTo(
           textRef.current,
           { y: "-6vh" },
@@ -130,7 +129,6 @@ export default function StatementSection({
           }
         );
 
-        // Suave entrada de escalado y opacidad (Bidireccional)
         gsap.fromTo(
           textRef.current,
           { opacity: 0, scale: 0.96 },
@@ -143,17 +141,72 @@ export default function StatementSection({
               trigger: sectionRef.current,
               start: "top 75%",
               end: "bottom 25%",
-              toggleActions: "play reverse play reverse", // Activo al subir y bajar
+              toggleActions: "play reverse play reverse",
             },
           }
         );
+      }
+
+      // ─── PROPUESTA IV: Principio editorial de diferenciación ───
+      if (variant === "principle" && textRef.current) {
+        const eyebrow = sectionRef.current?.querySelector(".principle-eyebrow");
+        const rail = sectionRef.current?.querySelector(".principle-rail");
+        const line1 = textRef.current.querySelector(".principle-line-1");
+        const line2 = textRef.current.querySelector(".principle-line-2");
+        const underline = textRef.current.querySelector(".principle-underline");
+        const bottomRail = sectionRef.current?.querySelector(".principle-bottom-rail");
+
+        const principleTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+            end: "bottom 30%",
+            toggleActions: "play reverse play reverse",
+          },
+        });
+
+        principleTl
+          .fromTo(
+            eyebrow,
+            { opacity: 0, y: 18 },
+            { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
+          )
+          .fromTo(
+            rail,
+            { scaleX: 0, transformOrigin: "left center" },
+            { scaleX: 1, duration: 0.9, ease: "power3.out" },
+            "-=0.45"
+          )
+          .fromTo(
+            line1,
+            { opacity: 0, y: 34, color: "#737373" },
+            { opacity: 1, y: 0, color: "#E5E5E5", duration: 1.0, ease: "power3.out" },
+            "-=0.25"
+          )
+          .fromTo(
+            line2,
+            { opacity: 0, y: 36, filter: "blur(18px)", scale: 1.04 },
+            { opacity: 1, y: 0, filter: "blur(0px)", scale: 1, duration: 1.25, ease: "power3.out" },
+            "-=0.45"
+          )
+          .fromTo(
+            underline,
+            { scaleX: 0, transformOrigin: "center center", opacity: 0 },
+            { scaleX: 1, opacity: 1, duration: 1.0, ease: "power3.out" },
+            "-=0.7"
+          )
+          .fromTo(
+            bottomRail,
+            { opacity: 0, y: 14 },
+            { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+            "-=0.55"
+          );
       }
     }, sectionRef);
 
     return () => ctx.revert();
   }, [variant]);
 
-  // Utilidad para separar el texto en palabras con su color y tipografía original para la propuesta II
   const renderDeblurText = () => {
     const combinedText = `${text} ${highlight}`;
     const words = combinedText.split(" ");
@@ -178,46 +231,105 @@ export default function StatementSection({
     <section
       ref={sectionRef}
       id={id}
-      className={`relative py-32 md:py-48 lg:py-64 bg-[#050505] text-white border-t border-white/10 overflow-hidden font-sans flex items-center justify-center min-h-[75vh] ${className}`}
+      className={`relative bg-[#050505] text-white border-t border-white/10 overflow-hidden font-sans flex items-center justify-center ${
+        isDeblur || isPrinciple ? "min-h-screen py-14 md:py-16 lg:py-20" : "py-32 md:py-48 lg:py-64 min-h-[75vh]"
+      } ${className}`}
     >
-      {/* Editorial Watermark Parallax de fondo */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.008] text-[20vw] font-serif italic text-white leading-none whitespace-nowrap">
         Kleos
       </div>
 
-      <div ref={containerRef} className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 text-center w-full">
-        <h2
-          ref={textRef}
-          className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-serif tracking-tight leading-[1.05] font-light w-full"
+      {isDeblur ? (
+        <div
+          ref={containerRef}
+          className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 w-full min-h-[calc(100vh-7rem)] md:min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-10rem)] flex flex-col justify-between select-none"
         >
-          {/* RENDER DE PROPUESTA I */}
-          {variant === "parallax" && (
-            <div className="flex flex-col gap-6 overflow-hidden py-4 w-full">
-              <span className="statement-line-1 block will-change-transform whitespace-nowrap">
+          <div className="w-full flex items-center gap-4">
+            <span className="font-mono text-[9px] md:text-[10px] tracking-[0.3em] text-gold uppercase whitespace-nowrap">
+              Tesis de percepción
+            </span>
+            <div className="h-px flex-1 bg-gradient-to-r from-gold/15 to-transparent" />
+          </div>
+
+          <div className="flex-1 flex items-center justify-center py-16 md:py-20 lg:py-24">
+            <h2
+              ref={textRef}
+              className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-serif tracking-tight leading-[1.05] font-light w-full text-center"
+            >
+              <div className="flex flex-wrap justify-center py-4 max-w-5xl mx-auto leading-[1.1]">
+                {renderDeblurText()}
+              </div>
+            </h2>
+          </div>
+
+          <div className="w-full flex justify-between items-center border-t border-white/5 pt-3">
+            <span className="font-mono text-[8px] text-neutral-600 uppercase tracking-[0.25em]">
+              KLEOS STUDIO
+            </span>
+          </div>
+        </div>
+      ) : isPrinciple ? (
+        <div
+          ref={containerRef}
+          className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 w-full min-h-[calc(100vh-7rem)] md:min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-10rem)] flex flex-col justify-between select-none"
+        >
+          <div className="w-full flex items-center gap-4">
+            <span className="principle-eyebrow font-mono text-[9px] md:text-[10px] tracking-[0.3em] text-gold uppercase whitespace-nowrap">
+              Principio de diferenciación
+            </span>
+            <div className="principle-rail h-px flex-1 bg-gradient-to-r from-gold/20 to-transparent" />
+          </div>
+
+          <div className="flex-1 flex items-center justify-center py-16 md:py-20 lg:py-24">
+            <h2
+              ref={textRef}
+              className="w-full text-center font-serif tracking-tight leading-[1.05] font-light"
+            >
+              <span className="principle-line-1 block text-3xl md:text-5xl lg:text-6xl xl:text-6xl text-neutral-200 max-w-5xl mx-auto leading-[1.05] text-balance">
                 {text}
               </span>
-              <span className="statement-line-2 block text-gold italic font-normal will-change-transform whitespace-nowrap">
+              <span className="principle-line-2 block mt-6 md:mt-8 text-4xl md:text-6xl lg:text-7xl xl:text-7xl text-gold italic font-normal will-change-transform max-w-5xl mx-auto leading-[1.02] text-balance">
                 {highlight}
               </span>
-            </div>
-          )}
+              <span className="principle-underline block mx-auto mt-8 h-px w-40 md:w-56 bg-gradient-to-r from-transparent via-gold/45 to-transparent" />
+            </h2>
+          </div>
 
-          {/* RENDER DE PROPUESTA II */}
-          {variant === "deblur" && (
-            <div className="flex flex-wrap justify-center py-4 max-w-5xl mx-auto leading-[1.1]">
-              {renderDeblurText()}
-            </div>
-          )}
+          <div className="principle-bottom-rail w-full flex justify-between items-center border-t border-white/5 pt-3">
+            <span className="font-mono text-[8px] text-neutral-600 uppercase tracking-[0.25em]">
+              KLEOS STUDIO
+            </span>
+            <span className="font-mono text-[8px] text-gold uppercase tracking-[0.3em] text-right">
+              DIFERENCIACIÓN SOBRE COMPETENCIA
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div ref={containerRef} className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 text-center w-full">
+          <h2
+            ref={textRef}
+            className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-serif tracking-tight leading-[1.05] font-light w-full"
+          >
+            {variant === "parallax" && (
+              <div className="flex flex-col gap-6 overflow-hidden py-4 w-full">
+                <span className="statement-line-1 block will-change-transform whitespace-nowrap">
+                  {text}
+                </span>
+                <span className="statement-line-2 block text-gold italic font-normal will-change-transform whitespace-nowrap">
+                  {highlight}
+                </span>
+              </div>
+            )}
 
-          {/* RENDER DE PROPUESTA III */}
-          {variant === "window" && (
-            <div className="py-4 max-w-5xl mx-auto leading-[1.1] will-change-transform select-none">
-              {text} <br className="hidden sm:inline" />
-              <span className="text-gold italic font-normal">{highlight}</span>
-            </div>
-          )}
-        </h2>
-      </div>
+            {variant === "window" && (
+              <div className="py-4 max-w-5xl mx-auto leading-[1.1] will-change-transform select-none">
+                {text} <br className="hidden sm:inline" />
+                <span className="text-gold italic font-normal">{highlight}</span>
+              </div>
+            )}
+          </h2>
+        </div>
+      )}
     </section>
   );
 }
