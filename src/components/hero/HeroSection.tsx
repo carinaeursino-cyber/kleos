@@ -1,89 +1,65 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion } from "motion/react";
-import { ArrowDown } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import BearVideo from "./BearVideo";
 import LambdaCanvas from "../../LambdaCanvas";
 import GoldenSpiral from "./GoldenSpiral";
 
-const SLIDE_DURATIONS = [4000, 3000, 6000]; // oso: 4s, transición: 3s, lambda: 6s
-const TOTAL_SLIDES = 3;
+// ─────────────────────────────────────────────────────────────────
+// KLEOS Hero — Experiencia cinematográfica continua
+//
+// El visitante no percibe 3 slides separados.
+// Percibe UNA sola secuencia de entrada, como una intro de película:
+//
+//   ACT I   — El Oso        (dura hasta que el video termina)
+//   ACT II  — La Espiral    (3.5s de respiración y transición)
+//   ACT III — El Lambda     (5.5s de dibujo láser e identidad)
+//             → entra al sitio automáticamente
+//
+// Sin dots de navegación. Sin botón "Ingresar" visible al inicio.
+// Sin pausas. Sin interrupciones. Solo el ritual.
+// ─────────────────────────────────────────────────────────────────
+
+const ACT_DURATIONS = {
+  bear:   0,      // dura lo que dura el video (onEnded lo avanza)
+  spiral: 3500,   // 3.5s — respiración contemplativa
+  lambda: 5800,   // 5.8s — draw láser + identidad + entrada al sitio
+};
 
 interface HeroSectionProps {
   onEnterSite?: () => void;
 }
 
 export default function HeroSection({ onEnterSite }: HeroSectionProps) {
-  const [slide, setSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [time, setTime] = useState(0);
+  const [act, setAct]           = useState<"bear" | "spiral" | "lambda">("bear");
   const [hasEntered, setHasEntered] = useState(false);
+  const timerRef                = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const startTimeRef = useRef<number>(Date.now());
-
-  const currentDuration = SLIDE_DURATIONS[slide];
-
-  const advanceSlide = useCallback(() => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    setSlide((prev) => (prev + 1) % TOTAL_SLIDES);
+  // ── Avanzar al siguiente acto ──
+  const goToSpiral = useCallback(() => {
+    setAct("spiral");
   }, []);
 
-  const scheduleNext = useCallback(() => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    if (isPaused || slide === 0) return;
+  const goToLambda = useCallback(() => {
+    setAct("lambda");
+  }, []);
 
-    startTimeRef.current = Date.now();
+  // ── Al entrar en el Acto II (Espiral), programar el Acto III ──
+  useEffect(() => {
+    if (act !== "spiral") return;
+    timerRef.current = setTimeout(goToLambda, ACT_DURATIONS.spiral);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [act, goToLambda]);
+
+  // ── Al entrar en el Acto III (Lambda), programar la entrada al sitio ──
+  useEffect(() => {
+    if (act !== "lambda") return;
     timerRef.current = setTimeout(() => {
-      if (slide === 2 && !hasEntered) {
-        handleEnterSite();
-        return;
-      }
-      advanceSlide();
-    }, currentDuration);
-  }, [isPaused, slide, currentDuration, advanceSlide, hasEntered]);
+      handleEnterSite();
+    }, ACT_DURATIONS.lambda);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [act]);
 
-  useEffect(() => {
-    scheduleNext();
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [slide, isPaused, scheduleNext]);
-
-  useEffect(() => {
-    if (isPaused || slide === 0) return;
-
-    startTimeRef.current = Date.now();
-    const tick = () => {
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [slide, isPaused]);
-
-  const goTo = useCallback((index: number) => {
-    setSlide(index);
-  }, []);
-
-  const scrollToNext = () => {
-    document
-      .getElementById("statement-percepcion")
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleTimeUpdate = (val: number) => {
-    if (slide === 0) setTime(val);
-  };
-
-  // BUGFIX: el oso avanza SIEMPRE al terminar, sin depender de isPaused
-  const handleVideoEnded = useCallback(() => {
-    if (slide === 0) {
-      advanceSlide();
-    }
-  }, [slide, advanceSlide]);
-
+  // ── Entrada al sitio — solo se ejecuta una vez ──
   const handleEnterSite = useCallback(() => {
     if (hasEntered) return;
     setHasEntered(true);
@@ -95,96 +71,117 @@ export default function HeroSection({ onEnterSite }: HeroSectionProps) {
     }, 150);
   }, [hasEntered, onEnterSite]);
 
+  // ── Click en cualquier parte = saltar la intro y entrar al sitio ──
+  const handleSkip = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    handleEnterSite();
+  }, [handleEnterSite]);
+
   return (
-    <section
-      id="hero-section"
-      className="relative h-screen bg-[#050505] overflow-hidden select-none lg:cursor-none"
+    <div
+      className="relative w-full h-screen bg-[#050505] overflow-hidden cursor-pointer"
+      onClick={handleSkip}
     >
-      {/* Click en cualquier parte del hero revela el sitio */}
-      <div
-        className="absolute inset-0 z-[25] cursor-pointer"
-        onClick={handleEnterSite}
-        aria-hidden="true"
-      />
 
-      {/* ═══════════════════════════════════════════ */}
-      {/* SLIDE 0: Solo el oso.                        */}
-      {/* ═══════════════════════════════════════════ */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        animate={{ x: `${(0 - slide) * 100}%` }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <BearVideo
-          isActive={slide === 0}
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={handleVideoEnded}
-        />
-      </motion.div>
-
-      {/* ═══════════════════════════════════════════ */}
-      {/* SLIDE 1: Transición sutil — espiral dorada  */}
-      {/* ═══════════════════════════════════════════ */}
-      <motion.div
-        className="absolute inset-0 z-10 flex items-center justify-center bg-[#050505] px-6"
-        animate={{ x: `${(1 - slide) * 100}%` }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <GoldenSpiral isActive={slide === 1} />
-      </motion.div>
-
-      {/* ═══════════════════════════════════════════ */}
-      {/* SLIDE 2: Motion Lambda + estrellas + CTA      */}
-      {/* Hover aquí pausa el timer de auto-advance     */}
-      {/* ═══════════════════════════════════════════ */}
-      <motion.div
-        className="absolute inset-0 z-20 bg-[#050505]"
-        animate={{ x: `${(2 - slide) * 100}%` }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        <LambdaCanvas isActive={slide === 2} />
-
-        {/* CTA — esquina inferior izquierda */}
-        <div
-          className="absolute bottom-10 left-8 md:left-14 z-30"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button
-            onClick={handleEnterSite}
-            className="group flex items-center gap-3 text-neutral-500 hover:text-gold transition-colors duration-500 cursor-hover"
-          >
-            <span className="w-8 h-[1px] bg-current transition-all duration-500 group-hover:w-12" />
-            <span className="text-[10px] tracking-[0.35em] uppercase font-mono">
-              Ingresar
-            </span>
-            <ArrowDown className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </button>
-        </div>
-      </motion.div>
-
-      {/* ── Dots de navegación ── */}
-      <div className="absolute bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-3 pointer-events-none">
-        {Array.from({ length: TOTAL_SLIDES }).map((_, i) => (
-          <button
-            key={i}
-            onClick={(e) => {
-              e.stopPropagation();
-              goTo(i);
+      {/* ══════════════════════════════════════════════════════
+          ACTO I — EL OSO
+          Fundido de entrada. Fundido de salida hacia negro.
+      ══════════════════════════════════════════════════════ */}
+      <AnimatePresence>
+        {act === "bear" && (
+          <motion.div
+            key="bear"
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{
+              opacity: 0,
+              transition: { duration: 1.4, ease: "easeInOut" },
             }}
-            className={`h-1.5 rounded-full transition-all duration-500 cursor-hover ${
-              slide === i
-                ? "w-8 bg-gold"
-                : "w-1.5 bg-white/20 hover:bg-white/40"
-            }`}
-            aria-label={`Ir a escena ${i + 1}`}
-          />
-        ))}
-      </div>
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          >
+            <BearVideo
+              isActive={act === "bear"}
+              onEnded={goToSpiral}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Línea glow inferior */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/15 to-transparent pointer-events-none z-30" />
-    </section>
+      {/* ══════════════════════════════════════════════════════
+          ACTO II — LA ESPIRAL DORADA
+          Aparece desde el negro. Respira. Funde hacia el Lambda.
+      ══════════════════════════════════════════════════════ */}
+      <AnimatePresence>
+        {act === "spiral" && (
+          <motion.div
+            key="spiral"
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{
+              opacity: 0,
+              transition: { duration: 1.2, ease: "easeInOut" },
+            }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+          >
+            <GoldenSpiral isActive={act === "spiral"} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ══════════════════════════════════════════════════════
+          ACTO III — EL LAMBDA
+          Emerge desde el negro. El isotipo se dibuja en láser.
+          El "K·L·E·O·S" aparece. Luego funde al sitio.
+      ══════════════════════════════════════════════════════ */}
+      <AnimatePresence>
+        {act === "lambda" && (
+          <motion.div
+            key="lambda"
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{
+              opacity: 0,
+              transition: { duration: 1.6, ease: "easeInOut" },
+            }}
+            transition={{ duration: 1.0, ease: "easeInOut" }}
+          >
+            <LambdaCanvas isActive={act === "lambda"} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ══════════════════════════════════════════════════════
+          HINT DE SKIP — muy sutil, esquina inferior derecha
+          Solo visible después del Acto I para no interrumpir
+          la experiencia del oso.
+      ══════════════════════════════════════════════════════ */}
+      <AnimatePresence>
+        {act !== "bear" && (
+          <motion.div
+            key="skip-hint"
+            className="absolute bottom-8 right-8 z-50 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, delay: 1.0 }}
+          >
+            <span
+              className="font-mono text-[9px] tracking-[0.3em] text-white/20 uppercase"
+            >
+              toca para continuar
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ══════════════════════════════════════════════════════
+          LÍNEA GLOW INFERIOR — marca editorial constante
+      ══════════════════════════════════════════════════════ */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent pointer-events-none" />
+
+    </div>
   );
 }
