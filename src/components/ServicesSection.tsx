@@ -117,7 +117,7 @@ export default function ServicesSection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/[0.008] rounded-full blur-3xl pointer-events-none" />
 
       {/* Pinned viewport layout */}
-      <div className="h-screen w-full flex flex-col justify-between py-16 md:py-20 px-6 md:px-12 lg:px-24 max-w-5xl mx-auto relative z-10 overflow-hidden">
+      <div className="h-screen w-full flex flex-col justify-between py-08 md:py-10 px-6 md:px-12 lg:px-24 max-w-5xl mx-auto relative z-10 overflow-hidden">
         
         {/* FIXED HEADER: Remains visible at the top of the screen as the cards stack */}
         <div className="w-full">
@@ -135,7 +135,7 @@ export default function ServicesSection() {
         {/* CARDS CONTAINER: Anchors the absolute stacked cards */}
         <div
           ref={cardsContainerRef}
-          className="relative flex-1 w-full flex items-center justify-center my-8 md:my-10 h-[55vh]"
+          className="relative flex-1 w-full flex items-center justify-center my-20 md:my-24 h-[55vh]"
         >
           {servicesData.map((service, idx) => (
             <div
@@ -176,9 +176,9 @@ export default function ServicesSection() {
                 {service.deliverables?.map((del, dIdx) => (
                   <div
                     key={dIdx}
-                    className="flex items-start gap-2 text-[9px] md:text-[10px] font-mono text-neutral-500"
+                    className="flex items-start gap-2 text-[9px] md:text-[10px] font-mono text-[#C5A059]"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-gold/50 mt-1 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-white mt-1 shrink-0" />
                     <span className="leading-snug">{del}</span>
                   </div>
                 ))}

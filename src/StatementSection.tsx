@@ -208,24 +208,34 @@ export default function StatementSection({
   }, [variant]);
 
   const renderDeblurText = () => {
-    const combinedText = `${text} ${highlight}`;
-    const words = combinedText.split(" ");
-    const firstPartWordCount = text.split(" ").length;
+  const textWords      = text.split(" ");
+  const highlightWords = highlight.split(" ");
 
-    return words.map((word, i) => {
-      const isHighlight = i >= firstPartWordCount;
-      return (
-        <span
-          key={i}
-          className={`deblur-word inline-block mr-[0.25em] will-change-transform ${
-            isHighlight ? "text-gold italic font-normal" : "text-neutral-100"
-          }`}
-        >
-          {word}
-        </span>
-      );
-    });
-  };
+  return (
+    <>
+      <span className="block mb-4">
+        {textWords.map((word, i) => (
+          <span
+            key={`t-${i}`}
+            className="deblur-word inline-block mr-[0.25em] will-change-transform text-neutral-100"
+          >
+            {word}
+          </span>
+        ))}
+      </span>
+      <span className="block">
+        {highlightWords.map((word, i) => (
+          <span
+            key={`h-${i}`}
+            className="deblur-word inline-block mr-[0.25em] will-change-transform text-gold italic font-normal"
+          >
+            {word}
+          </span>
+        ))}
+      </span>
+    </>
+  );
+};
 
   return (
     <section
@@ -254,9 +264,9 @@ export default function StatementSection({
           <div className="flex-1 flex items-center justify-center py-16 md:py-20 lg:py-24">
             <h2
               ref={textRef}
-              className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-serif tracking-tight leading-[1.05] font-light w-full text-center"
+              className="text-3xl md:text-4xl lg:text-7xl xl:text-8xl font-serif tracking-tight leading-[1.05] font-light w-full"
             >
-              <div className="flex flex-wrap justify-center py-4 max-w-5xl mx-auto leading-[1.1]">
+              <div className="flex flex-col items-center justify-center py-4 max-w-5xl mx-auto leading-[1.1]">
                 {renderDeblurText()}
               </div>
             </h2>
@@ -308,7 +318,7 @@ export default function StatementSection({
         <div ref={containerRef} className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 text-center w-full">
           <h2
             ref={textRef}
-            className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-serif tracking-tight leading-[1.05] font-light w-full"
+            className="text-5xl md:text-6xl lg:text-7xl xl:text-7xl font-serif tracking-tight leading-[1.05] font-light w-full"
           >
             {variant === "parallax" && (
               <div className="flex flex-col gap-6 overflow-hidden py-4 w-full">

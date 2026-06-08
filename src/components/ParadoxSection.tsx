@@ -205,7 +205,7 @@ export default function ParadoxSection() {
         </div>
 
         <div
-          ref={cardsContainerRef}
+          ref={cardsContainerRef} id="brechas-section"
           className="relative flex-1 w-full max-w-5xl mx-auto flex items-center justify-center h-[52vh] my-4 px-6 md:px-12"
         >
           {paradoxProblems.map((problem, idx) => (

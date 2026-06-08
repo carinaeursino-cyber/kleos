@@ -416,14 +416,14 @@ export default function BrandingPhilosophies() {
               marginBottom:  "2.8rem",
             }}
           >
-            03 — Axiomas
+            
           </span>
 
           <p
             ref={quoteRef}
             style={{
               fontFamily:    "Playfair Display, Georgia, serif",
-              fontSize:      "clamp(1.5rem, 2.5vw, 2.25rem)",
+              fontSize:      "clamp(2.4rem, 4.5vw, 4.25rem)",
               fontWeight:    400,
               lineHeight:    1.22,
               letterSpacing: "-0.01em",

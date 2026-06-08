@@ -13,7 +13,7 @@ export const servicesData: ServiceItem[] = [
     subtitle: "ESTRUCTURA DE ALTO NIVEL",
     description: "Presencias digitales construidas para transmitir claridad, autoridad y valor desde el primer segundo.",
     deliverables: [
-      "Diseño responsive de alta precisión con rejilla editorial",
+      "Diseño responsive de alta precisión",
       "Experiencias inmersivas optimizadas para conversión orgánica",
       "Contraste estético premium y control del foco de lectura"
     ]
@@ -26,7 +26,7 @@ export const servicesData: ServiceItem[] = [
     deliverables: [
       "Arquitectura de la información bajo criterios de alta reputación",
       "Modelado de distribución de contenido interactivo",
-      "Diseño editorial aplicable a documentos y reportes del negocio"
+      "Redacción orientada a conversión para todos los canales: web, redes sociales y email"
     ]
   },
   {
@@ -35,8 +35,8 @@ export const servicesData: ServiceItem[] = [
     subtitle: "CONSISTENCIA PERMANENTE",
     description: "Piezas diseñadas para consistencia, no solo estética.",
     deliverables: [
-      "Directrices de arte adaptadas a canales corporativos de distribución",
-      "Diseño modular de plantillas estables de alto contraste",
+      "Directrices adaptadas a canales corporativos de distribución",
+      "Sistemas de diseño que definen cómo tu marca se percibe, siempre",
       "Estructuras visuales equilibradas que retienen atención selectiva"
     ]
   },
@@ -46,7 +46,7 @@ export const servicesData: ServiceItem[] = [
     subtitle: "FLUJOS SIN FRICCIÓN",
     description: "Sistemas que guían la decisión sin fricción ni presión.",
     deliverables: [
-      "Embudo de alta gama con carga instantánea y micro-interacciones sutiles",
+      "Embudo de conversión con carga instantánea y micro-interacciones sutiles",
       "Optimización heurística del checkout y puntos de contacto del comprador",
       "Criterio de claridad absoluta para guiar decisiones de alto valor"
     ]
@@ -57,8 +57,8 @@ export const servicesData: ServiceItem[] = [
     subtitle: "DEMOSTRACIÓN DE EXPERTISE",
     description: "Materiales que demuestran expertise sin necesidad de explicarlo.",
     deliverables: [
-      "Maquetación y curación visual de informes, whitepapers y diagnósticos",
-      "Visualización estadística interactiva del conocimiento técnico",
+      "Recursos que hacen que el prospecto llegue a la llamada ya convencido",
+      "Materiales que atraen prospectos con intención real de compra", 
       "Diseño de recursos descargables con estándar de publicación impresa"
     ]
   },
@@ -69,8 +69,8 @@ export const servicesData: ServiceItem[] = [
     description: "Infraestructura para que tu comunicación funcione incluso cuando no estás presente.",
     deliverables: [
       "Ingeniería de integraciones y automatizado sin dependencias ruidosas",
-      "Sistemas de respuesta inteligente con tono de voz de autoridad",
-      "Consistencia de percepción automatizada y flujos de soporte confidenciales"
+      "Sistemas de respuesta inteligente adaptado a tu voz",
+      "Identidades digitales que representan tu negocio las 24 horas"
     ]
   }
 ];

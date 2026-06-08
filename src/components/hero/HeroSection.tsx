@@ -158,24 +158,7 @@ export default function HeroSection({ onEnterSite }: HeroSectionProps) {
           Solo visible después del Acto I para no interrumpir
           la experiencia del oso.
       ══════════════════════════════════════════════════════ */}
-      <AnimatePresence>
-        {act !== "bear" && (
-          <motion.div
-            key="skip-hint"
-            className="absolute bottom-8 right-8 z-50 pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, delay: 1.0 }}
-          >
-            <span
-              className="font-mono text-[9px] tracking-[0.3em] text-white/20 uppercase"
-            >
-              toca para continuar
-            </span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      
 
       {/* ══════════════════════════════════════════════════════
           LÍNEA GLOW INFERIOR — marca editorial constante
