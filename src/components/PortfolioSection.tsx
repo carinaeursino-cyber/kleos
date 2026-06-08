@@ -83,7 +83,6 @@ export default function PortfolioSection() {
         },
       });
 
-      // Initial state: showcase 01 visible, showcase 02 hidden.
       gsap.set(headerRef.current, { opacity: 1, y: 0 });
       gsap.set(text1Ref.current, { opacity: 1, y: 0 });
       gsap.set(mockup1Ref.current, { y: "0vh", scale: 1, opacity: 1 });
@@ -122,8 +121,6 @@ export default function PortfolioSection() {
         @media (max-width: 767px) {
           .rotate-3d-iphone-17 {
             animation: behance3D 10s ease-in-out infinite;
-          }
-          .rotate-3d-iphone-17 {
             transform: perspective(1500px) rotateX(4deg) rotateY(-6deg) rotateZ(0deg) translateY(0px);
           }
         }
@@ -197,7 +194,7 @@ export default function PortfolioSection() {
             {/* MOCKUP 01: iPhone / Embajadoras */}
             <div
               ref={mockup1Ref}
-              className="absolute w-[150px] sm:w-[180px] md:w-[225px] lg:w-[235px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
+              className="absolute w-[195px] sm:w-[210px] md:w-[225px] lg:w-[235px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
             >
               <div className="rotate-3d-iphone-17 w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
                 <div
@@ -211,15 +208,15 @@ export default function PortfolioSection() {
                   style={{ transform: "translateZ(-10px)", transformStyle: "preserve-3d" }}
                 >
                   <div
-                    className="absolute left-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#D77A3E] via-[#A94F25] to-[#5C2412] rounded hidden sm:block"
+                    className="absolute left-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#D77A3E] via-[#A94F25] to-[#5C2412] rounded"
                     style={{ transform: "rotateY(-90deg) translateZ(4px)" }}
                   />
                   <div
-                    className="absolute right-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#E08A4B] via-[#B9572A] to-[#642815] rounded hidden sm:block"
+                    className="absolute right-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#E08A4B] via-[#B9572A] to-[#642815] rounded"
                     style={{ transform: "rotateY(90deg) translateZ(4px)" }}
                   />
                   <div
-                    className="absolute bottom-[-4px] left-12 right-12 h-[8px] bg-gradient-to-r from-[#7A3219] via-[#C9652E] to-[#4E1F10] rounded-b hidden sm:flex items-center justify-center gap-3"
+                    className="absolute bottom-[-4px] left-12 right-12 h-[8px] bg-gradient-to-r from-[#7A3219] via-[#C9652E] to-[#4E1F10] rounded-b flex items-center justify-center gap-3"
                     style={{ transform: "rotateX(90deg) translateZ(4px)", transformStyle: "preserve-3d" }}
                   >
                     <div className="flex gap-0.5">
@@ -234,9 +231,9 @@ export default function PortfolioSection() {
                       <div className="w-1 h-1 bg-black rounded-full" />
                     </div>
                   </div>
-                  <div className="absolute left-[-5px] top-24 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow hidden sm:block" style={{ transform: "translateZ(1px)" }} />
-                  <div className="absolute left-[-5px] top-36 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow hidden sm:block" style={{ transform: "translateZ(1px)" }} />
-                  <div className="absolute right-[-5px] top-32 w-1.2 h-12 bg-gradient-to-b from-[#F0A15D] to-[#9C4421] rounded-r border-y border-r border-[#3B160B]/55 shadow hidden sm:block" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-5px] top-24 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-5px] top-36 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute right-[-5px] top-32 w-1.2 h-12 bg-gradient-to-b from-[#F0A15D] to-[#9C4421] rounded-r border-y border-r border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
                 </div>
 
                 {/* Screen */}

@@ -102,7 +102,7 @@ export default function HeroSection({ onEnterSite }: HeroSectionProps) {
           >
             <BearVideo
               isActive={act === "bear"}
-              onEnded={goToSpiral}
+              onEnded={goToLambda}
             />
           </motion.div>
         )}

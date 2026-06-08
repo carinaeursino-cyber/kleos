@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -40,6 +41,7 @@ export default function ParadoxSection() {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const finalBlockRef = useRef<HTMLDivElement>(null);
   const watermarkRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -69,7 +71,6 @@ export default function ParadoxSection() {
         const line1 = headlineRef.current.querySelector(".headline-line-1");
         const line2 = headlineRef.current.querySelector(".headline-line-2");
 
-        // Reduce parallax movement on mobile
         const parallaxAmount = isMobile ? "3vw" : "6vw";
 
         gsap.fromTo(
@@ -117,7 +118,6 @@ export default function ParadoxSection() {
           },
         });
 
-        // On mobile: stack vertically instead of sliding from left
         cards.forEach((card, idx) => {
           if (idx === 0) return;
 
@@ -182,8 +182,8 @@ export default function ParadoxSection() {
         Kleos
       </div>
 
-      <div className="min-h-[60vh] sm:min-h-[78vh] pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-16 sm:pb-24 md:pb-28 lg:pb-32 px-5 sm:px-6 md:px-12 lg:px-24 max-w-6xl mx-auto select-none overflow-hidden w-full flex flex-col justify-start">
-        <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-12">
+      <div className="pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-8 sm:pb-12 md:pb-20 lg:pb-28 px-5 sm:px-6 md:px-12 lg:px-24 max-w-6xl mx-auto select-none overflow-hidden w-full flex flex-col justify-start">
+        <div className="mb-4 sm:mb-8 md:mb-10 lg:mb-12">
           <p className="font-mono text-[8px] sm:text-[9px] md:text-[10px] tracking-[0.25em] text-gold uppercase mb-3">
             La Paradoja
           </p>
@@ -191,12 +191,12 @@ export default function ParadoxSection() {
 
         <h2
           ref={headlineRef}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-serif tracking-tight leading-[0.85] text-neutral-100 font-light max-w-none flex flex-col gap-2 sm:gap-3"
+          className="text-9xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-serif tracking-tight leading-[0.85] text-neutral-100 font-light max-w-none flex flex-col gap-2 sm:gap-3"
         >
           <span className="headline-line-1 block will-change-transform pb-2">
             La realidad
           </span>
-          <span className="headline-line-2 block text-gold italic font-normal will-change-transform pb-2 self-end sm:self-auto md:self-auto">
+          <span className="headline-line-2 block text-gold italic font-normal will-change-transform pb-2 self-end sm:self-auto">
             digital es simple
           </span>
         </h2>
@@ -256,7 +256,7 @@ export default function ParadoxSection() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-5 sm:px-6 md:px-12 pt-12 sm:pt-16 md:pt-24 lg:pt-32 pb-24 sm:pb-32 md:pb-48">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 md:px-12 pt-8 sm:pt-16 md:pt-24 lg:pt-32 pb-16 sm:pb-32 md:pb-48">
         <div
           ref={finalBlockRef}
           className="relative rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#0A0A0B] to-[#040405] border border-white/10 p-6 sm:p-10 md:p-16 lg:p-24 overflow-hidden shadow-2xl"
@@ -312,6 +312,16 @@ export default function ParadoxSection() {
                 Convertimos negocios sólidos en marcas que se perciben al mismo
                 nivel que su trabajo real.
               </p>
+
+              <button
+                onClick={() => navigate("/contacto")}
+                className="cursor-hover inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-3.5 border border-gold/30 hover:border-gold hover:bg-gold/5 text-gold text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] rounded-full transition-all duration-300 mt-2"
+              >
+                Hablemos
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0">
+                  <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
             </div>
           </div>
         </div>

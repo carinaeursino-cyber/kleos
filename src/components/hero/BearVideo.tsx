@@ -14,7 +14,6 @@ export default function BearVideo({
 }: BearVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Control de reproducción: reinicia al entrar, pausa al salir
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -30,15 +29,15 @@ export default function BearVideo({
   return (
     <div className="absolute inset-0 overflow-hidden">
       <video
-        ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover object-[50%_60%]"
-        src={bearVideo}
-        muted
-        playsInline
-        preload="auto"
-        onTimeUpdate={(e) => onTimeUpdate?.(e.currentTarget.currentTime)}
-        onEnded={() => onEnded?.()}
-      />
+  ref={videoRef}
+  className="absolute inset-0 w-full h-full object-cover object-[50%_30%] sm:object-[50%_60%]"
+  src={bearVideo}
+  muted
+  playsInline
+  preload="auto"
+  onTimeUpdate={(e) => onTimeUpdate?.(e.currentTarget.currentTime)}
+  onEnded={() => onEnded?.()}
+/>
     </div>
   );
 }

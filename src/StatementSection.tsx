@@ -28,7 +28,6 @@ export default function StatementSection({
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // ─── PROPUESTA I: Paneo horizontal ───
       if (variant === "parallax" && textRef.current) {
         const line1 = textRef.current.querySelector(".statement-line-1");
         const line2 = textRef.current.querySelector(".statement-line-2");
@@ -82,7 +81,6 @@ export default function StatementSection({
         );
       }
 
-      // ─── PROPUESTA II: De-blur palabra por palabra ───
       if (variant === "deblur" && textRef.current) {
         const words = textRef.current.querySelectorAll(".deblur-word");
 
@@ -112,7 +110,6 @@ export default function StatementSection({
         );
       }
 
-      // ─── PROPUESTA III: Ventana / parallax vertical ───
       if (variant === "window" && textRef.current) {
         gsap.fromTo(
           textRef.current,
@@ -147,7 +144,6 @@ export default function StatementSection({
         );
       }
 
-      // ─── PROPUESTA IV: Principio editorial de diferenciación ───
       if (variant === "principle" && textRef.current) {
         const eyebrow = sectionRef.current?.querySelector(".principle-eyebrow");
         const rail = sectionRef.current?.querySelector(".principle-rail");
@@ -242,7 +238,7 @@ export default function StatementSection({
       ref={sectionRef}
       id={id}
       className={`relative bg-[#050505] text-white border-t border-white/10 overflow-hidden font-sans flex items-center justify-center ${
-        isDeblur || isPrinciple ? "min-h-screen py-14 md:py-16 lg:py-20" : "py-32 md:py-48 lg:py-64 min-h-[75vh]"
+        isDeblur || isPrinciple ? "min-h-screen py-14 md:py-16 lg:py-20" : "py-16 sm:py-24 md:py-32 lg:py-48 min-h-[50vh] sm:min-h-[75vh]"
       } ${className}`}
     >
       <div className="absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.008] text-[20vw] font-serif italic text-white leading-none whitespace-nowrap">
@@ -318,14 +314,14 @@ export default function StatementSection({
         <div ref={containerRef} className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 text-center w-full">
           <h2
             ref={textRef}
-            className="text-5xl md:text-6xl lg:text-7xl xl:text-7xl font-serif tracking-tight leading-[1.05] font-light w-full"
+            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-7xl font-serif tracking-tight leading-[1.05] font-light w-full"
           >
             {variant === "parallax" && (
-              <div className="flex flex-col gap-6 overflow-hidden py-4 w-full">
-                <span className="statement-line-1 block will-change-transform whitespace-nowrap">
+              <div className="flex flex-col gap-4 sm:gap-6 overflow-hidden py-4 w-full">
+                <span className="statement-line-1 block will-change-transform text-balance sm:whitespace-nowrap">
                   {text}
                 </span>
-                <span className="statement-line-2 block text-gold italic font-normal will-change-transform whitespace-nowrap">
+                <span className="statement-line-2 block text-gold italic font-normal will-change-transform text-balance sm:whitespace-nowrap">
                   {highlight}
                 </span>
               </div>
