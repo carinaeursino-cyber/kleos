@@ -52,6 +52,8 @@ export default function PortfolioSection() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
+    const isMobile = window.innerWidth < 768;
+
     const ctx = gsap.context(() => {
       if (watermarkRef.current) {
         gsap.fromTo(
@@ -74,7 +76,7 @@ export default function PortfolioSection() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=180%",
+          end: isMobile ? "+=120%" : "+=180%",
           pin: true,
           scrub: 1.2,
           anticipatePin: 1,
@@ -117,6 +119,14 @@ export default function PortfolioSection() {
           transform-style: preserve-3d;
           animation: behance3D 8s ease-in-out infinite;
         }
+        @media (max-width: 767px) {
+          .rotate-3d-iphone-17 {
+            animation: behance3D 10s ease-in-out infinite;
+          }
+          .rotate-3d-iphone-17 {
+            transform: perspective(1500px) rotateX(4deg) rotateY(-6deg) rotateZ(0deg) translateY(0px);
+          }
+        }
 
         @keyframes tv3D {
           0%, 100% { transform: perspective(1500px) rotateX(4deg) rotateY(-18deg) rotateZ(1deg) translateY(0px); }
@@ -125,6 +135,12 @@ export default function PortfolioSection() {
         .rotate-3d-tv {
           transform-style: preserve-3d;
           animation: tv3D 8.5s ease-in-out infinite;
+        }
+        @media (max-width: 767px) {
+          .rotate-3d-tv {
+            animation: none;
+            transform: perspective(1500px) rotateX(2deg) rotateY(-4deg) rotateZ(0deg);
+          }
         }
 
         @keyframes goldenTrace {
@@ -163,25 +179,25 @@ export default function PortfolioSection() {
         Autoridad
       </div>
 
-      <div className="h-screen w-full flex flex-col justify-start pt-8 md:pt-10 pb-6 px-6 md:px-12 lg:px-24 max-w-6xl mx-auto relative overflow-hidden z-10">
+      <div className="h-screen w-full flex flex-col justify-start pt-6 sm:pt-8 md:pt-10 pb-4 sm:pb-6 px-4 sm:px-6 md:px-12 lg:px-24 max-w-6xl mx-auto relative overflow-hidden z-10">
         {/* Section header */}
         <div ref={headerRef} className="w-full select-none pb-1 max-w-4xl">
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-neutral-100 font-light">
+          <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-neutral-100 font-light">
             Arquitectura de <span className="text-gold italic font-normal">Percepción</span>
           </h2>
-          <p className="mt-4 max-w-2xl font-sans text-xs md:text-sm text-neutral-500 leading-relaxed font-light">
+          <p className="mt-2 sm:mt-4 max-w-2xl font-sans text-[10px] sm:text-xs md:text-sm text-neutral-500 leading-relaxed font-light">
             Una selección de sistemas visuales diseñados para demostrar cómo una marca puede verse,
             sentirse y recordarse cuando la percepción está dirigida.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center w-full flex-1 min-h-0 mt-4 md:mt-6 relative">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-12 md:gap-16 items-center w-full flex-1 min-h-0 mt-3 sm:mt-4 md:mt-6 relative">
           {/* LEFT STACK */}
           <div className="md:col-span-6 h-full relative flex items-center justify-center">
             {/* MOCKUP 01: iPhone / Embajadoras */}
             <div
               ref={mockup1Ref}
-              className="absolute w-[200px] md:w-[225px] lg:w-[235px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
+              className="absolute w-[150px] sm:w-[180px] md:w-[225px] lg:w-[235px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
             >
               <div className="rotate-3d-iphone-17 w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
                 <div
@@ -195,15 +211,15 @@ export default function PortfolioSection() {
                   style={{ transform: "translateZ(-10px)", transformStyle: "preserve-3d" }}
                 >
                   <div
-                    className="absolute left-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#D77A3E] via-[#A94F25] to-[#5C2412] rounded"
+                    className="absolute left-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#D77A3E] via-[#A94F25] to-[#5C2412] rounded hidden sm:block"
                     style={{ transform: "rotateY(-90deg) translateZ(4px)" }}
                   />
                   <div
-                    className="absolute right-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#E08A4B] via-[#B9572A] to-[#642815] rounded"
+                    className="absolute right-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#E08A4B] via-[#B9572A] to-[#642815] rounded hidden sm:block"
                     style={{ transform: "rotateY(90deg) translateZ(4px)" }}
                   />
                   <div
-                    className="absolute bottom-[-4px] left-12 right-12 h-[8px] bg-gradient-to-r from-[#7A3219] via-[#C9652E] to-[#4E1F10] rounded-b flex items-center justify-center gap-3"
+                    className="absolute bottom-[-4px] left-12 right-12 h-[8px] bg-gradient-to-r from-[#7A3219] via-[#C9652E] to-[#4E1F10] rounded-b hidden sm:flex items-center justify-center gap-3"
                     style={{ transform: "rotateX(90deg) translateZ(4px)", transformStyle: "preserve-3d" }}
                   >
                     <div className="flex gap-0.5">
@@ -218,9 +234,9 @@ export default function PortfolioSection() {
                       <div className="w-1 h-1 bg-black rounded-full" />
                     </div>
                   </div>
-                  <div className="absolute left-[-5px] top-24 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
-                  <div className="absolute left-[-5px] top-36 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
-                  <div className="absolute right-[-5px] top-32 w-1.2 h-12 bg-gradient-to-b from-[#F0A15D] to-[#9C4421] rounded-r border-y border-r border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-5px] top-24 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow hidden sm:block" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-5px] top-36 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow hidden sm:block" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute right-[-5px] top-32 w-1.2 h-12 bg-gradient-to-b from-[#F0A15D] to-[#9C4421] rounded-r border-y border-r border-[#3B160B]/55 shadow hidden sm:block" style={{ transform: "translateZ(1px)" }} />
                 </div>
 
                 {/* Screen */}
@@ -231,26 +247,26 @@ export default function PortfolioSection() {
                   {/* iOS-style editing interface */}
                   <div className="absolute inset-0 bg-black">
                     <div className="absolute top-2.5 left-3 right-3 z-40 flex items-center justify-between select-none">
-                      <span className="px-2.5 py-1 rounded-full bg-white/10 border border-white/8 text-[6px] font-mono text-neutral-300 tracking-tight">
+                      <span className="px-2 py-1 rounded-full bg-white/10 border border-white/8 text-[5px] sm:text-[6px] font-mono text-neutral-300 tracking-tight">
                         Cancelar
                       </span>
-                      <span className="px-2.5 py-1 rounded-full bg-[#F2D34B] text-[6px] font-mono font-bold text-black tracking-tight shadow-[0_0_12px_rgba(242,211,75,0.25)]">
+                      <span className="px-2 py-1 rounded-full bg-[#F2D34B] text-[5px] sm:text-[6px] font-mono font-bold text-black tracking-tight shadow-[0_0_12px_rgba(242,211,75,0.25)]">
                         Listo
                       </span>
                     </div>
 
-                    <div className="absolute top-9 left-3 right-3 z-40 flex items-center justify-between select-none">
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-6 h-5 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[8px] text-neutral-400">↶</span>
-                        <span className="w-6 h-5 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[8px] text-neutral-400">↷</span>
+                    <div className="absolute top-8 left-3 right-3 z-40 flex items-center justify-between select-none">
+                      <div className="flex items-center gap-1">
+                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[6px] sm:text-[8px] text-neutral-400">↶</span>
+                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[6px] sm:text-[8px] text-neutral-400">↷</span>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-6 h-5 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[8px] text-neutral-400">◎</span>
-                        <span className="w-7 h-5 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[8px] text-neutral-400">•••</span>
+                      <div className="flex items-center gap-1">
+                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[6px] sm:text-[8px] text-neutral-400">◎</span>
+                        <span className="w-6 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[6px] sm:text-[8px] text-neutral-400">•••</span>
                       </div>
                     </div>
 
-                    <div className="absolute left-[13px] right-[13px] top-[70px] bottom-[108px] rounded-[18px] overflow-hidden bg-[#030303]">
+                    <div className="absolute left-[10px] sm:left-[13px] right-[10px] sm:right-[13px] top-[56px] sm:top-[70px] bottom-[88px] sm:bottom-[108px] rounded-[14px] sm:rounded-[18px] overflow-hidden bg-[#030303]">
                       {MODELS.map((model, idx) => (
                         <div
                           key={idx}
@@ -267,17 +283,17 @@ export default function PortfolioSection() {
                           />
                         </div>
                       ))}
-                      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-20" />
-                      <span className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 px-2 py-0.5 rounded-sm bg-white/10 text-[5px] font-mono uppercase tracking-[0.18em] text-white/55">
+                      <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-20" />
+                      <span className="absolute bottom-1.5 sm:bottom-2 left-1/2 -translate-x-1/2 z-30 px-2 py-0.5 rounded-sm bg-white/10 text-[4px] sm:text-[5px] font-mono uppercase tracking-[0.18em] text-white/55">
                         KLEOS IA
                       </span>
                     </div>
 
-                    <div className="absolute left-4 right-4 bottom-[56px] z-40 h-9 flex items-center gap-1 overflow-hidden select-none">
+                    <div className="absolute left-3 sm:left-4 right-3 sm:right-4 bottom-[44px] sm:bottom-[56px] z-40 h-7 sm:h-9 flex items-center gap-1 overflow-hidden select-none">
                       {MODELS.concat(MODELS).slice(0, 10).map((model, idx) => (
                         <div
                           key={idx}
-                          className={`relative h-8 w-5 shrink-0 rounded-[3px] overflow-hidden border ${
+                          className={`relative h-6 w-4 sm:h-8 sm:w-5 shrink-0 rounded-[3px] overflow-hidden border ${
                             idx % MODELS.length === currentModelIdx ? "border-[#F2D34B]" : "border-white/10"
                           }`}
                         >
@@ -287,19 +303,19 @@ export default function PortfolioSection() {
                       <div className="absolute left-1/2 top-0 bottom-0 w-px bg-[#F2D34B] shadow-[0_0_10px_rgba(242,211,75,0.75)]" />
                     </div>
 
-                    <div className="absolute left-0 right-0 bottom-0 z-40 h-[52px] bg-black/95 border-t border-white/8 flex items-center justify-center gap-4 select-none">
+                    <div className="absolute left-0 right-0 bottom-0 z-40 h-[42px] sm:h-[52px] bg-black/95 border-t border-white/8 flex items-center justify-center gap-3 sm:gap-4 select-none">
                       {["Estilo", "Ajustar", "Recortar", "Borrar"].map((tool) => (
-                        <div key={tool} className="flex flex-col items-center gap-1 text-neutral-500">
-                          <span className="w-5 h-5 rounded-full border border-white/10 bg-white/[0.04]" />
-                          <span className="font-mono text-[5px] tracking-tight">{tool}</span>
+                        <div key={tool} className="flex flex-col items-center gap-0.5 sm:gap-1 text-neutral-500">
+                          <span className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-white/10 bg-white/[0.04]" />
+                          <span className="font-mono text-[4px] sm:text-[5px] tracking-tight">{tool}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-50 mix-blend-overlay" />
-                  <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-26 h-5.5 bg-black rounded-full z-50 flex items-center justify-between px-3 shadow-inner" style={{ transform: "translateZ(14px)" }} />
-                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-16 h-[3px] rounded-full bg-white/20 z-50" />
+                  <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 sm:w-26 h-4 sm:h-5.5 bg-black rounded-full z-50 flex items-center justify-between px-3 shadow-inner" style={{ transform: "translateZ(14px)" }} />
+                  <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-[2px] sm:h-[3px] rounded-full bg-white/20 z-50" />
                 </div>
               </div>
             </div>
@@ -309,32 +325,32 @@ export default function PortfolioSection() {
               ref={text2Ref}
               className="absolute inset-0 flex flex-col justify-center text-center md:text-left select-none pointer-events-none"
             >
-              <div className="space-y-6 max-w-sm lg:max-w-md px-6 md:px-0 md:pr-10 lg:pr-14">
-                <span className="font-mono text-xs md:text-sm text-gold tracking-[0.2em] uppercase font-bold block whitespace-nowrap">
+              <div className="space-y-3 sm:space-y-4 md:space-y-6 max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-0 md:pr-10 lg:pr-14">
+                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-gold tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold block whitespace-nowrap">
                   02 / CASO VISUAL
                 </span>
-                <h3 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight">
+                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
                   Diseño Web <br />
                   <span className="text-gold italic font-normal font-light">Personalizado</span>
                 </h3>
-                <p className="font-sans text-neutral-450 text-xs md:text-sm lg:text-base font-light leading-relaxed">
+                <p className="font-sans text-neutral-400 text-[10px] sm:text-xs md:text-sm lg:text-base font-light leading-relaxed">
                   Diseñamos presencias digitales a medida para cualquier nicho, sector o escala. Esculpimos herramientas de conversión sin fricción que reescriben tu autoridad ante el mercado premium.
                 </p>
 
-                <div className="pt-4 space-y-2 select-none">
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-[8px] font-mono text-gold tracking-widest uppercase">
+                <div className="pt-3 sm:pt-4 space-y-1.5 sm:space-y-2 select-none">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <div className="flex justify-between text-[7px] sm:text-[8px] font-mono text-gold tracking-widest uppercase">
                       <span>SITIO WEB A MEDIDA</span>
                       <span>{currentWebIdx + 1} / {WEBS.length}</span>
                     </div>
-                    <div className="w-64 h-[1px] bg-white/10 relative overflow-hidden">
+                    <div className="w-48 sm:w-64 h-[1px] bg-white/10 relative overflow-hidden">
                       <div
                         className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300"
                         style={{ width: `${((currentWebIdx + 1) / WEBS.length) * 100}%` }}
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
+                  <div className="hidden sm:flex items-center gap-2 text-[7px] sm:text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
                     <span>ARQUITECTURA UX · AUTORIDAD DIGITAL · CONVERSIÓN</span>
                   </div>
@@ -350,32 +366,32 @@ export default function PortfolioSection() {
               ref={text1Ref}
               className="absolute inset-0 flex flex-col justify-center text-center md:text-left select-none pointer-events-none md:translate-x-[16px]"
             >
-              <div className="space-y-6 max-w-md">
-                <span className="font-mono text-xs md:text-sm text-gold tracking-[0.2em] uppercase font-bold block">
+              <div className="space-y-3 sm:space-y-4 md:space-y-6 max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-0">
+                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-gold tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold block">
                   01 / CASO VISUAL
                 </span>
-                <h3 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[1.05] tracking-tight">
+                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
                   Embajadoras <br />
                   <span className="text-gold italic font-normal">Digitales IA</span>
                 </h3>
-                <p className="font-sans text-neutral-450 text-sm md:text-base font-light leading-relaxed">
+                <p className="font-sans text-neutral-400 text-[10px] sm:text-xs md:text-sm md:text-base font-light leading-relaxed">
                   Diseñamos embajadoras digitales hiperrealistas para representar marcas, conectar con audiencias y potenciar su presencia digital.
                 </p>
 
-                <div className="pt-4 space-y-2 select-none">
-                  <div className="space-y-1.5">
-                    <div className="flex justify-between text-[8px] font-mono text-gold tracking-widest uppercase">
-                      <span>EMBAJADORA DIGITAL EN DESARROLLO</span>
+                <div className="pt-3 sm:pt-4 space-y-1.5 sm:space-y-2 select-none">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <div className="flex justify-between text-[7px] sm:text-[8px] font-mono text-gold tracking-widest uppercase">
+                      <span>EMBAJADORA DIGITAL</span>
                       <span>{currentModelIdx + 1} / {MODELS.length}</span>
                     </div>
-                    <div className="w-64 h-[1px] bg-white/10 relative overflow-hidden">
+                    <div className="w-48 sm:w-64 h-[1px] bg-white/10 relative overflow-hidden">
                       <div
                         className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300"
                         style={{ width: `${((currentModelIdx + 1) / MODELS.length) * 100}%` }}
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
+                  <div className="hidden sm:flex items-center gap-2 text-[7px] sm:text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
                     <span>IDENTIDAD VISUAL · PRESENCIA DE MARCA · REPRESENTACIÓN IA</span>
                   </div>
@@ -386,18 +402,18 @@ export default function PortfolioSection() {
             {/* MOCKUP 02 */}
             <div
               ref={mockup2Ref}
-              className="absolute w-[360px] md:w-[470px] lg:w-[520px] xl:w-[550px] aspect-[16/10] will-change-transform z-10 md:-right-4 lg:-right-8 xl:-right-10 mt-4 md:mt-8 lg:mt-10"
+              className="absolute w-[260px] sm:w-[320px] md:w-[470px] lg:w-[520px] xl:w-[550px] aspect-[16/10] will-change-transform z-10 md:-right-4 lg:-right-8 xl:-right-10 mt-2 sm:mt-4 md:mt-8 lg:mt-10"
             >
               <div className="rotate-3d-tv w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
-                <div className="absolute inset-4 bg-black/75 rounded-3xl blur-2xl" style={{ transform: "translateZ(-25px)", opacity: 0.95 }} />
+                <div className="absolute inset-3 sm:inset-4 bg-black/75 rounded-2xl sm:rounded-3xl blur-2xl" style={{ transform: "translateZ(-25px)", opacity: 0.95 }} />
 
                 <div
-                  className="relative w-full h-full rounded-3xl bg-[#161617] p-2 shadow-[0_30px_70px_rgba(0,0,0,0.85),_0_0_0_1px_rgba(197,160,89,0.16),_inset_0_0_0_1px_rgba(245,211,141,0.08)] border border-gold/35 flex flex-col overflow-hidden group/tv hover:shadow-[0_30px_70px_rgba(197,160,89,0.18)] transition-shadow duration-700 ease-out"
+                  className="relative w-full h-full rounded-2xl sm:rounded-3xl bg-[#161617] p-1.5 sm:p-2 shadow-[0_30px_70px_rgba(0,0,0,0.85),_0_0_0_1px_rgba(197,160,89,0.16),_inset_0_0_0_1px_rgba(245,211,141,0.08)] border border-gold/35 flex flex-col overflow-hidden group/tv hover:shadow-[0_30px_70px_rgba(197,160,89,0.18)] transition-shadow duration-700 ease-out"
                   style={{ transform: "translateZ(0px)", transformStyle: "preserve-3d" }}
                 >
                   <div className="golden-trace-frame" />
                   <div
-                    className="w-full h-full rounded-2xl overflow-hidden relative bg-[#050505] border border-black shadow-inner"
+                    className="w-full h-full rounded-xl sm:rounded-2xl overflow-hidden relative bg-[#050505] border border-black shadow-inner"
                     style={{ transform: "translateZ(6px)" }}
                   >
                     {WEBS.map((web, idx) => (
@@ -419,8 +435,8 @@ export default function PortfolioSection() {
 
                     <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-20 mix-blend-overlay" />
 
-                    <div className="absolute bottom-3 left-3 bg-[#050505]/45 backdrop-blur-md border border-white/5 p-2 rounded-xl z-20 select-none">
-                      <span className="font-mono text-[6px] md:text-[7px] text-gold tracking-widest uppercase font-bold">KLEOS DIGITAL STUDIO</span>
+                    <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 bg-[#050505]/45 backdrop-blur-md border border-white/5 p-1.5 sm:p-2 rounded-lg sm:rounded-xl z-20 select-none">
+                      <span className="font-mono text-[5px] sm:text-[6px] md:text-[7px] text-gold tracking-widest uppercase font-bold">KLEOS DIGITAL STUDIO</span>
                     </div>
                   </div>
                 </div>

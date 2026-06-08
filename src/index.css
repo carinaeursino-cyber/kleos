@@ -11,13 +11,24 @@
   --font-mono: "JetBrains Mono", monospace;
 }
 
+/* ── Base ── */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   background-color: #050505;
   color: #F5F5F5;
   font-family: var(--font-sans);
+  overflow-x: hidden;
 }
 
-/* Subtle background grain simulation */
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Subtle background grain simulation ── */
 .editorial-grain {
   position: relative;
 }
@@ -29,4 +40,38 @@ body {
   opacity: 0.025;
   z-index: 99;
   background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+}
+
+/* ── Mobile: disable grain for performance ── */
+@media (max-width: 767px) {
+  .editorial-grain::before {
+    display: none;
+  }
+}
+
+/* ── Mobile scrollbar styling ── */
+@media (max-width: 767px) {
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050505;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(197, 160, 89, 0.15);
+    border-radius: 4px;
+  }
+}
+
+/* ── Selection ── */
+::selection {
+  background-color: rgba(197, 160, 89, 0.3);
+  color: white;
+}
+
+/* ── Safe area for notched phones ── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }

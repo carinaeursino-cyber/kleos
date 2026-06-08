@@ -296,6 +296,7 @@ function KleosIsotype() {
 // ─────────────────────────────────────────────────────────────────
 
 // Layout: texto a la izquierda · isotipo a la derecha
+// En mobile: stack vertical (texto arriba, isotipo abajo)
 // ─────────────────────────────────────────────────────────────────
 export default function BrandingPhilosophies() {
   const sectionRef  = useRef<HTMLElement>(null);
@@ -343,8 +344,13 @@ export default function BrandingPhilosophies() {
         },
       });
 
+      // On mobile, animate from bottom instead of right
+      const isMobile = window.innerWidth < 768;
       gsap.from(isotopeRef.current, {
-        opacity: 0, x: 28, duration: 1.8, ease: "power3.out", delay: 0.15,
+        opacity: 0,
+        x: isMobile ? 0 : 28,
+        y: isMobile ? 28 : 0,
+        duration: 1.8, ease: "power3.out", delay: 0.15,
         scrollTrigger: {
           trigger: sectionRef.current, start: "top 78%",
           toggleActions: "play none none none",
@@ -365,7 +371,6 @@ export default function BrandingPhilosophies() {
         width:    "100%",
         background: "#050505",
         overflow: "hidden",
-        padding:  "10vw 8vw 12vw",
       }}
     >
       {/* Ambient glow sutil del lado derecho */}
@@ -388,102 +393,118 @@ export default function BrandingPhilosophies() {
           maxWidth:       "1280px",
           margin:         "0 auto",
           width:          "100%",
-          display:        "flex",
-          flexDirection:  "row",
-          alignItems:     "center",
-          gap:            0,
         }}
+        // Responsive: column on mobile, row on desktop
+        className="flex flex-col items-center text-center gap-12 px-6 py-16 md:flex-row md:items-center md:text-left md:gap-0 md:px-0 md:py-0"
+        // Desktop padding via style for the original spacing
       >
-        {/* ══ COLUMNA IZQUIERDA — Texto ══ */}
-        <div
-          style={{
-            flex:          1,
-            display:       "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            maxWidth:      "52%",
-          }}
-        >
-          <span
-            ref={labelRef}
-            style={{
-              fontFamily:    "JetBrains Mono, monospace",
-              fontSize:      "0.625rem",
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color:         "rgba(197,160,89,0.45)",
-              display:       "block",
-              marginBottom:  "2.8rem",
-            }}
-          >
-            
-          </span>
-
-          <p
-            ref={quoteRef}
-            style={{
-              fontFamily:    "Playfair Display, Georgia, serif",
-              fontSize:      "clamp(2.4rem, 4.5vw, 4.25rem)",
-              fontWeight:    400,
-              lineHeight:    1.22,
-              letterSpacing: "-0.01em",
-              color:         "rgba(245,245,245,0.92)",
-            }}
-          >
-            No se trata de verse bien.
-            <br />
-            Se trata de ser percibido
-            <br />
-            <em style={{ color: "#C5A059", fontStyle: "italic" }}>
-              correctamente.
-            </em>
-          </p>
-
           <div
-            ref={dividerRef}
             style={{
-              width:      "3rem",
-              height:     "1px",
-              background: "linear-gradient(90deg, #C5A059 0%, transparent 100%)",
-              margin:     "2.8rem 0",
-              opacity:    0.55,
+              maxWidth: "1280px",
+              margin: "0 auto",
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0,
+              padding: "10vw 8vw 12vw",
             }}
-          />
-
-          <p
-            ref={emphasisRef}
-            style={{
-              fontFamily:    "Inter, system-ui, sans-serif",
-              fontSize:      "clamp(0.82rem, 1.1vw, 1rem)",
-              letterSpacing: "0.02em",
-              lineHeight:    1.7,
-              color:         "rgba(245,245,245,0.38)",
-            }}
+            className="!flex-col md:!flex-row !items-center md:!items-center !text-center md:!text-left !gap-12 md:!gap-0 !px-8 md:!px-0 !py-16 md:!py-0"
           >
-            <span style={{ color: "rgba(245,245,245,0.68)", fontWeight: 500 }}>
-              El diseño no es decoración.
-            </span>
-            <br />
-            Es una herramienta de posicionamiento.
-          </p>
-        </div>
+            {/* ══ COLUMNA IZQUIERDA — Texto ══ */}
+            <div
+              style={{
+                flex:          1,
+                display:       "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                maxWidth:      "52%",
+              }}
+              className="!max-w-full md:!max-w-[52%]"
+            >
+              <span
+                ref={labelRef}
+                style={{
+                  fontFamily:    "JetBrains Mono, monospace",
+                  fontSize:      "0.625rem",
+                  letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  color:         "rgba(197,160,89,0.45)",
+                  display:       "block",
+                  marginBottom:  "2.8rem",
+                }}
+              >
+                
+              </span>
 
-        {/* ══ COLUMNA DERECHA — Isotipo ══ */}
-        <div
-          ref={isotopeRef}
-          style={{
-            flexShrink:     0,
-            display:        "flex",
-            alignItems:     "center",
-            justifyContent: "center",
-            width:          "clamp(200px, 26vw, 360px)",
-            height:         "clamp(200px, 26vw, 360px)",
-            marginLeft:     "auto",
-            paddingLeft:    "3vw",
-          }}
-        >
-          <KleosIsotype />
-        </div>
+              <p
+                ref={quoteRef}
+                style={{
+                  fontFamily:    "Playfair Display, Georgia, serif",
+                  fontSize:      "clamp(2rem, 5.5vw, 4.25rem)",
+                  fontWeight:    400,
+                  lineHeight:    1.22,
+                  letterSpacing: "-0.01em",
+                  color:         "rgba(245,245,245,0.92)",
+                }}
+              >
+                No se trata de verse bien.
+                <br />
+                Se trata de ser percibido
+                <br />
+                <em style={{ color: "#C5A059", fontStyle: "italic" }}>
+                  correctamente.
+                </em>
+              </p>
+
+              <div
+                ref={dividerRef}
+                style={{
+                  width:      "3rem",
+                  height:     "1px",
+                  background: "linear-gradient(90deg, #C5A059 0%, transparent 100%)",
+                  margin:     "2.8rem 0",
+                  opacity:    0.55,
+                }}
+                className="!mx-auto md:!mx-0"
+              />
+
+              <p
+                ref={emphasisRef}
+                style={{
+                  fontFamily:    "Inter, system-ui, sans-serif",
+                  fontSize:      "clamp(0.82rem, 1.1vw, 1rem)",
+                  letterSpacing: "0.02em",
+                  lineHeight:    1.7,
+                  color:         "rgba(245,245,245,0.38)",
+                }}
+              >
+                <span style={{ color: "rgba(245,245,245,0.68)", fontWeight: 500 }}>
+                  El diseño no es decoración.
+                </span>
+                <br />
+                Es una herramienta de posicionamiento.
+              </p>
+            </div>
+
+            {/* ══ COLUMNA DERECHA — Isotipo ══ */}
+            <div
+              ref={isotopeRef}
+              style={{
+                flexShrink:     0,
+                display:        "flex",
+                alignItems:     "center",
+                justifyContent: "center",
+                width:          "clamp(200px, 26vw, 360px)",
+                height:         "clamp(200px, 26vw, 360px)",
+                marginLeft:     "auto",
+                paddingLeft:    "3vw",
+              }}
+              className="!ml-0 md:!ml-auto !pl-0 md:!pl-[3vw]"
+            >
+              <KleosIsotype />
+            </div>
+          </div>
       </div>
     </section>
   );

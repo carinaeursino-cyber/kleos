@@ -90,7 +90,7 @@ function HomePage() {
   };
 
   return (
-    <div className="bg-[#050505] text-[#F5F5F5] min-h-screen selection:bg-gold/30 selection:text-white overflow-x-hidden font-sans editorial-grain lg:cursor-none">
+    <div className="bg-[#050505] text-[#F5F5F5] min-h-screen selection:bg-gold/30 selection:text-white overflow-x-hidden font-sans editorial-grain lg:cursor-none safe-bottom">
       <CustomCursor />
 
       {/* Menú — invisible durante el hero */}
@@ -183,27 +183,27 @@ function HomePage() {
 
             <footer
               id="footer"
-              className="relative bg-[#030304] py-24 md:py-32 border-t border-white/10 font-sans text-neutral-400 lg:pl-24 lg:pr-24"
+              className="relative bg-[#030304] py-16 sm:py-20 md:py-24 lg:py-32 border-t border-white/10 font-sans text-neutral-400 lg:pl-24 lg:pr-24"
             >
-              <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
-                <div className="mb-10">
-                  <span className="font-serif text-4xl md:text-5xl tracking-[0.15em] font-light">
+              <div className="max-w-6xl mx-auto px-5 sm:px-6 md:px-12 flex flex-col items-center text-center">
+                <div className="mb-8 sm:mb-10">
+                  <span className="font-serif text-3xl sm:text-4xl md:text-5xl tracking-[0.15em] font-light">
                     <span className="text-[#C5A059]">K</span>
                     <span className="text-white">·L·E·O·S</span>
                   </span>
-                  <span className="block font-mono text-[9px] tracking-[0.4em] text-gold uppercase mt-3 font-medium">STUDIO</span>
+                  <span className="block font-mono text-[8px] sm:text-[9px] tracking-[0.4em] text-gold uppercase mt-2 sm:mt-3 font-medium">STUDIO</span>
                 </div>
-                <div className="w-20 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent mb-10" />
-                <p className="font-serif text-xl md:text-2xl text-neutral-200 font-light tracking-wide mb-8 max-w-lg leading-relaxed">
+                <div className="w-16 sm:w-20 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent mb-8 sm:mb-10" />
+                <p className="font-serif text-lg sm:text-xl md:text-2xl text-neutral-200 font-light tracking-wide mb-6 sm:mb-8 max-w-lg leading-relaxed">
                   Hablemos. Nos encantaría saber de ti.
                 </p>
                 <a
                   href="mailto:contacto@kleos.studio"
-                  className="cursor-hover inline-flex items-center gap-3 px-8 py-3.5 border border-gold/30 hover:border-gold hover:bg-gold/5 text-gold text-[11px] font-mono uppercase tracking-[0.25em] rounded-full transition-all duration-300"
+                  className="cursor-hover inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-3.5 border border-gold/30 hover:border-gold hover:bg-gold/5 text-gold text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] rounded-full transition-all duration-300"
                 >
                   Iniciar Conversación
                 </a>
-                <p className="mt-16 font-mono text-[9px] text-neutral-700 uppercase tracking-[0.3em]">
+                <p className="mt-12 sm:mt-16 font-mono text-[7px] sm:text-[9px] text-neutral-700 uppercase tracking-[0.25em] sm:tracking-[0.3em]">
                   © 2026 KLEOS DIGITAL AGENCY
                 </p>
               </div>
