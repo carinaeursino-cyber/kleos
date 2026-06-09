@@ -314,7 +314,7 @@ export default function StatementSection({
         <div ref={containerRef} className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 text-center w-full">
           <h2
             ref={textRef}
-            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-7xl font-serif tracking-tight leading-[1.05] font-light w-full"
+            className="text-[2.5rem] sm:text-5xl md:text-6xl lg:text-8xl xl:text-[7rem] font-serif tracking-tight leading-[1.05] font-light w-full"
           >
             {variant === "parallax" && (
               <div className="flex flex-col gap-4 sm:gap-6 overflow-hidden py-4 w-full">
