@@ -197,12 +197,12 @@ function HomePage() {
                 <p className="font-serif text-lg sm:text-xl md:text-2xl text-neutral-200 font-light tracking-wide mb-6 sm:mb-8 max-w-lg leading-relaxed">
                   Hablemos. Nos encantaría saber de ti.
                 </p>
-                <a
-                  href="/contacto"
+                <Link
+                  to="/contacto"
                   className="cursor-hover inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-3.5 border border-gold/30 hover:border-gold hover:bg-gold/5 text-gold text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] rounded-full transition-all duration-300"
                 >
                   Iniciar Conversación
-                </a>
+                </Link>
                 <p className="mt-12 sm:mt-16 font-mono text-[7px] sm:text-[9px] text-neutral-700 uppercase tracking-[0.25em] sm:tracking-[0.3em]">
                   © 2026 KLEOS DIGITAL AGENCY
                 </p>
