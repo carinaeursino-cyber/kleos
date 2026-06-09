@@ -338,7 +338,7 @@ export default function ParadoxSection() {
                 onClick={() => navigate("/contacto")}
                 className="cursor-hover inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-3.5 border border-gold/30 hover:border-gold hover:bg-gold/5 text-gold text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] rounded-full transition-all duration-300 mt-2"
               >
-                Hablemos
+                Quiero atraer mejores clientes
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0">
                   <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
