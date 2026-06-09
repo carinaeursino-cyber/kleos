@@ -107,7 +107,7 @@ export default function PortfolioSection() {
     <section
       ref={sectionRef}
       id="portfolio-section"
-      className="relative h-screen bg-[#050505] text-white border-t border-white/10 overflow-hidden font-sans flex items-center justify-center"
+      className="relative bg-[#050505] text-white border-t border-white/10 overflow-hidden font-sans flex items-center justify-center"
     >
       <style>{`
         @keyframes behance3D {
@@ -121,6 +121,8 @@ export default function PortfolioSection() {
         @media (max-width: 767px) {
           .rotate-3d-iphone-17 {
             animation: behance3D 10s ease-in-out infinite;
+          }
+          .rotate-3d-iphone-17 {
             transform: perspective(1500px) rotateX(4deg) rotateY(-6deg) rotateZ(0deg) translateY(0px);
           }
         }
@@ -176,9 +178,9 @@ export default function PortfolioSection() {
         Autoridad
       </div>
 
-      <div className="h-screen w-full flex flex-col justify-start pt-6 sm:pt-8 md:pt-10 pb-4 sm:pb-6 px-4 sm:px-6 md:px-12 lg:px-24 max-w-6xl mx-auto relative overflow-hidden z-10">
+      <div className="h-screen w-full flex flex-col justify-start pt-6 sm:pt-8 md:pt-10 pb-4 sm:pb-6 px-4 sm:px-6 md:px-12 lg:px-24 max-w-6xl mx-auto relative overflow-y-auto md:overflow-hidden z-10">
         {/* Section header */}
-        <div ref={headerRef} className="w-full select-none pb-1 max-w-4xl">
+        <div ref={headerRef} className="w-full select-none pb-1 max-w-4xl shrink-0">
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-neutral-100 font-light">
             Arquitectura de <span className="text-gold italic font-normal">Percepción</span>
           </h2>
@@ -188,57 +190,120 @@ export default function PortfolioSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-12 md:gap-16 items-center w-full flex-1 min-h-0 mt-3 sm:mt-4 md:mt-6 relative">
-          {/* LEFT STACK */}
-          <div className="md:col-span-6 h-full relative flex items-center justify-center">
-            {/* MOCKUP 01: iPhone / Embajadoras */}
+        <div className="flex flex-col md:grid md:grid-cols-12 gap-4 sm:gap-6 md:gap-12 md:gap-16 items-center w-full flex-1 min-h-0 mt-2 sm:mt-4 md:mt-6 relative">
+
+          {/* RIGHT STACK — Texto primero en mobile */}
+          <div className="md:col-span-6 min-h-[32vh] md:min-h-0 md:h-full relative flex items-center justify-center order-first md:order-none">
+            {/* TEXT 01 */}
+            <div
+              ref={text1Ref}
+              className="static md:absolute md:inset-0 flex flex-col justify-start pt-2 md:justify-center text-center md:text-left select-none pointer-events-none md:translate-x-[16px]"
+            >
+              <div className="space-y-3 sm:space-y-4 md:space-y-6 max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-0">
+                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-gold tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold block">
+                  01 / CASO VISUAL
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
+                  Embajadoras <br />
+                  <span className="text-gold italic font-normal">Digitales IA</span>
+                </h3>
+                <p className="font-sans text-neutral-400 text-[10px] sm:text-xs md:text-sm md:text-base font-light leading-relaxed">
+                  Diseñamos embajadoras digitales hiperrealistas para representar marcas, conectar con audiencias y potenciar su presencia digital.
+                </p>
+
+                <div className="pt-3 sm:pt-4 space-y-1.5 sm:space-y-2 select-none">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <div className="flex justify-between text-[7px] sm:text-[8px] font-mono text-gold tracking-widest uppercase">
+                      <span>EMBAJADORA DIGITAL</span>
+                      <span>{currentModelIdx + 1} / {MODELS.length}</span>
+                    </div>
+                    <div className="w-48 sm:w-64 h-[1px] bg-white/10 relative overflow-hidden">
+                      <div
+                        className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300"
+                        style={{ width: `${((currentModelIdx + 1) / MODELS.length) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-2 text-[7px] sm:text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
+                    <span>IDENTIDAD VISUAL · PRESENCIA DE MARCA · REPRESENTACIÓN IA</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* TEXT 02 */}
+            <div
+              ref={text2Ref}
+              className="static md:absolute md:inset-0 flex flex-col justify-start pt-2 md:justify-center text-center md:text-left select-none pointer-events-none"
+            >
+              <div className="space-y-3 sm:space-y-4 md:space-y-6 max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-0 md:pr-10 lg:pr-14">
+                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-gold tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold block whitespace-nowrap">
+                  02 / CASO VISUAL
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
+                  Diseño Web <br />
+                  <span className="text-gold italic font-normal font-light">Personalizado</span>
+                </h3>
+                <p className="font-sans text-neutral-400 text-[10px] sm:text-xs md:text-sm lg:text-base font-light leading-relaxed">
+                  Diseñamos presencias digitales a medida para cualquier nicho, sector o escala. Esculpimos herramientas de conversión sin fricción que reescriben tu autoridad ante el mercado premium.
+                </p>
+
+                <div className="pt-3 sm:pt-4 space-y-1.5 sm:space-y-2 select-none">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <div className="flex justify-between text-[7px] sm:text-[8px] font-mono text-gold tracking-widest uppercase">
+                      <span>SITIO WEB A MEDIDA</span>
+                      <span>{currentWebIdx + 1} / {WEBS.length}</span>
+                    </div>
+                    <div className="w-48 sm:w-64 h-[1px] bg-white/10 relative overflow-hidden">
+                      <div
+                        className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300"
+                        style={{ width: `${((currentWebIdx + 1) / WEBS.length) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                  <div className="hidden sm:flex items-center gap-2 text-[7px] sm:text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
+                    <span>ARQUITECTURA UX · AUTORIDAD DIGITAL · CONVERSIÓN</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* LEFT STACK — Mockup debajo en mobile */}
+          <div className="md:col-span-6 min-h-[50vh] md:min-h-0 md:h-full relative flex items-center justify-center order-last md:order-none">
+            {/* MOCKUP 01: iPhone 14 Pro Max / Embajadoras */}
             <div
               ref={mockup1Ref}
-              className="absolute w-[195px] sm:w-[210px] md:w-[225px] lg:w-[235px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
+              className="absolute w-[340px] sm:w-[210px] md:w-[225px] lg:w-[235px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
             >
               <div className="rotate-3d-iphone-17 w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
                 <div
-                  className="absolute inset-6 bg-black rounded-[50px] blur-2xl pointer-events-none"
+                  className="absolute inset-6 bg-black rounded-[52px] blur-2xl pointer-events-none"
                   style={{ transform: "translateZ(-30px)", opacity: 0.95 }}
                 />
 
-                {/* Copper chassis */}
+                {/* Titanium chassis — iPhone 14 Pro Max */}
                 <div
-                  className="absolute inset-0 rounded-[50px] bg-gradient-to-b from-[#F0A15D] via-[#C9652E] to-[#6F2E18] shadow-[inset_0_2px_10px_rgba(255,210,150,0.28),_inset_0_-18px_28px_rgba(45,14,5,0.65),_0_0_0_1px_rgba(255,180,105,0.22)] border border-[#D67A3E]/55"
+                  className="absolute inset-0 rounded-[52px] bg-gradient-to-b from-[#8A8A8E] via-[#6E6E73] to-[#48484A] shadow-[inset_0_1px_0_rgba(255,255,255,0.15),_inset_0_-1px_0_rgba(0,0,0,0.3),_0_0_0_0.5px_rgba(255,255,255,0.08)] border border-[#5A5A5E]/60"
                   style={{ transform: "translateZ(-10px)", transformStyle: "preserve-3d" }}
                 >
-                  <div
-                    className="absolute left-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#D77A3E] via-[#A94F25] to-[#5C2412] rounded"
-                    style={{ transform: "rotateY(-90deg) translateZ(4px)" }}
-                  />
-                  <div
-                    className="absolute right-[-4px] top-12 bottom-12 w-[8px] bg-gradient-to-b from-[#E08A4B] via-[#B9572A] to-[#642815] rounded"
-                    style={{ transform: "rotateY(90deg) translateZ(4px)" }}
-                  />
-                  <div
-                    className="absolute bottom-[-4px] left-12 right-12 h-[8px] bg-gradient-to-r from-[#7A3219] via-[#C9652E] to-[#4E1F10] rounded-b flex items-center justify-center gap-3"
-                    style={{ transform: "rotateX(90deg) translateZ(4px)", transformStyle: "preserve-3d" }}
-                  >
-                    <div className="flex gap-0.5">
-                      <div className="w-1 h-1 bg-black rounded-full" />
-                      <div className="w-1 h-1 bg-black rounded-full" />
-                      <div className="w-1 h-1 bg-black rounded-full" />
-                    </div>
-                    <div className="w-6 h-2 bg-[#1A0A05] rounded-sm border border-[#3B160B] shadow-inner" />
-                    <div className="flex gap-0.5">
-                      <div className="w-1 h-1 bg-black rounded-full" />
-                      <div className="w-1 h-1 bg-black rounded-full" />
-                      <div className="w-1 h-1 bg-black rounded-full" />
-                    </div>
-                  </div>
-                  <div className="absolute left-[-5px] top-24 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
-                  <div className="absolute left-[-5px] top-36 w-1.2 h-8 bg-gradient-to-b from-[#E18A4A] to-[#8B3B1D] rounded-l border-y border-l border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
-                  <div className="absolute right-[-5px] top-32 w-1.2 h-12 bg-gradient-to-b from-[#F0A15D] to-[#9C4421] rounded-r border-y border-r border-[#3B160B]/55 shadow" style={{ transform: "translateZ(1px)" }} />
+                  {/* Left side: Volume buttons */}
+                  <div className="absolute left-[-3px] top-[18%] w-[3px] h-[5%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-3px] top-[26%] w-[3px] h-[3%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-3px] top-[32%] w-[3px] h-[3%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+
+                  {/* Left side: Action button */}
+                  <div className="absolute left-[-3px] top-[13%] w-[3px] h-[2.5%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+
+                  {/* Right side: Power button */}
+                  <div className="absolute right-[-3px] top-[25%] w-[3px] h-[7%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-r-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
                 </div>
 
                 {/* Screen */}
                 <div
-                  className="absolute inset-1 rounded-[44px] overflow-hidden bg-neutral-950 border border-[#3A160B] shadow-[inset_0_0_0_1px_rgba(255,180,105,0.10),_inset_0_0_22px_rgba(0,0,0,0.95)]"
+                  className="absolute inset-[3px] rounded-[46px] overflow-hidden bg-neutral-950 border border-[#2A2A2E]/50 shadow-[inset_0_0_0_0.5px_rgba(255,255,255,0.05)]"
                   style={{ transform: "translateZ(10px)", transformStyle: "preserve-3d" }}
                 >
                   {/* iOS-style editing interface */}
@@ -311,87 +376,10 @@ export default function PortfolioSection() {
                   </div>
 
                   <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-50 mix-blend-overlay" />
-                  <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 sm:w-26 h-4 sm:h-5.5 bg-black rounded-full z-50 flex items-center justify-between px-3 shadow-inner" style={{ transform: "translateZ(14px)" }} />
-                  <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-[2px] sm:h-[3px] rounded-full bg-white/20 z-50" />
-                </div>
-              </div>
-            </div>
-
-            {/* TEXT 02 */}
-            <div
-              ref={text2Ref}
-              className="absolute inset-0 flex flex-col justify-center text-center md:text-left select-none pointer-events-none"
-            >
-              <div className="space-y-3 sm:space-y-4 md:space-y-6 max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-0 md:pr-10 lg:pr-14">
-                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-gold tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold block whitespace-nowrap">
-                  02 / CASO VISUAL
-                </span>
-                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
-                  Diseño Web <br />
-                  <span className="text-gold italic font-normal font-light">Personalizado</span>
-                </h3>
-                <p className="font-sans text-neutral-400 text-[10px] sm:text-xs md:text-sm lg:text-base font-light leading-relaxed">
-                  Diseñamos presencias digitales a medida para cualquier nicho, sector o escala. Esculpimos herramientas de conversión sin fricción que reescriben tu autoridad ante el mercado premium.
-                </p>
-
-                <div className="pt-3 sm:pt-4 space-y-1.5 sm:space-y-2 select-none">
-                  <div className="space-y-1 sm:space-y-1.5">
-                    <div className="flex justify-between text-[7px] sm:text-[8px] font-mono text-gold tracking-widest uppercase">
-                      <span>SITIO WEB A MEDIDA</span>
-                      <span>{currentWebIdx + 1} / {WEBS.length}</span>
-                    </div>
-                    <div className="w-48 sm:w-64 h-[1px] bg-white/10 relative overflow-hidden">
-                      <div
-                        className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300"
-                        style={{ width: `${((currentWebIdx + 1) / WEBS.length) * 100}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className="hidden sm:flex items-center gap-2 text-[7px] sm:text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
-                    <span>ARQUITECTURA UX · AUTORIDAD DIGITAL · CONVERSIÓN</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT STACK */}
-          <div className="md:col-span-6 h-full relative flex items-center justify-center">
-            {/* TEXT 01 */}
-            <div
-              ref={text1Ref}
-              className="absolute inset-0 flex flex-col justify-center text-center md:text-left select-none pointer-events-none md:translate-x-[16px]"
-            >
-              <div className="space-y-3 sm:space-y-4 md:space-y-6 max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-0">
-                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-gold tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold block">
-                  01 / CASO VISUAL
-                </span>
-                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
-                  Embajadoras <br />
-                  <span className="text-gold italic font-normal">Digitales IA</span>
-                </h3>
-                <p className="font-sans text-neutral-400 text-[10px] sm:text-xs md:text-sm md:text-base font-light leading-relaxed">
-                  Diseñamos embajadoras digitales hiperrealistas para representar marcas, conectar con audiencias y potenciar su presencia digital.
-                </p>
-
-                <div className="pt-3 sm:pt-4 space-y-1.5 sm:space-y-2 select-none">
-                  <div className="space-y-1 sm:space-y-1.5">
-                    <div className="flex justify-between text-[7px] sm:text-[8px] font-mono text-gold tracking-widest uppercase">
-                      <span>EMBAJADORA DIGITAL</span>
-                      <span>{currentModelIdx + 1} / {MODELS.length}</span>
-                    </div>
-                    <div className="w-48 sm:w-64 h-[1px] bg-white/10 relative overflow-hidden">
-                      <div
-                        className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300"
-                        style={{ width: `${((currentModelIdx + 1) / MODELS.length) * 100}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className="hidden sm:flex items-center gap-2 text-[7px] sm:text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
-                    <span>IDENTIDAD VISUAL · PRESENCIA DE MARCA · REPRESENTACIÓN IA</span>
-                  </div>
+                  {/* Dynamic Island */}
+                  <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[28%] h-[4.5%] bg-black rounded-full z-50 shadow-[0_0_4px_rgba(0,0,0,0.5)]" style={{ transform: "translateX(-50%) translateZ(14px)" }} />
+                  {/* Home indicator */}
+                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[30%] h-[2px] rounded-full bg-white/25 z-50" />
                 </div>
               </div>
             </div>
