@@ -30,7 +30,7 @@ export default function BearVideo({
     <div className="absolute inset-0 overflow-hidden">
       <video
   ref={videoRef}
-  className="absolute inset-0 w-full h-full object-cover object-[40%_0%] sm:object-[50%_60%]"
+  className="absolute inset-0 w-full h-full object-cover object-[70%_0%] sm:object-[50%_60%]"
   src={bearVideo}
   muted
   playsInline
