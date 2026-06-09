@@ -191,7 +191,7 @@ export default function ParadoxSection() {
 
         <h2
           ref={headlineRef}
-          className="text-9xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-serif tracking-tight leading-[0.85] text-neutral-100 font-light max-w-none flex flex-col gap-2 sm:gap-3"
+          className="text-[3rem] sm:text-[5rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem] font-serif tracking-tight leading-[0.85] text-neutral-100 font-light max-w-none flex flex-col gap-2 sm:gap-3"
         >
           <span className="headline-line-1 block will-change-transform pb-2">
             La realidad
