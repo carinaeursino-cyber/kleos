@@ -71,37 +71,57 @@ export default function ParadoxSection() {
         const line1 = headlineRef.current.querySelector(".headline-line-1");
         const line2 = headlineRef.current.querySelector(".headline-line-2");
 
-        const parallaxAmount = isMobile ? "3vw" : "6vw";
+        if (isMobile) {
+          // Mobile: scale up — arranca chico y crece con scroll
+          gsap.fromTo(
+            headlineRef.current,
+            { scale: 0.75, opacity: 0.3 },
+            {
+              scale: 1,
+              opacity: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: headlineRef.current,
+                start: "top bottom",
+                end: "bottom 60%",
+                scrub: 1.2,
+              },
+            }
+          );
+        } else {
+          // Desktop: parallax original
+          const parallaxAmount = "6vw";
 
-        gsap.fromTo(
-          line1,
-          { x: parallaxAmount },
-          {
-            x: `-${parallaxAmount}`,
-            ease: "none",
-            scrollTrigger: {
-              trigger: headlineRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1.2,
-            },
-          }
-        );
+          gsap.fromTo(
+            line1,
+            { x: parallaxAmount },
+            {
+              x: `-${parallaxAmount}`,
+              ease: "none",
+              scrollTrigger: {
+                trigger: headlineRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.2,
+              },
+            }
+          );
 
-        gsap.fromTo(
-          line2,
-          { x: `-${parallaxAmount}` },
-          {
-            x: parallaxAmount,
-            ease: "none",
-            scrollTrigger: {
-              trigger: headlineRef.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1.2,
-            },
-          }
-        );
+          gsap.fromTo(
+            line2,
+            { x: `-${parallaxAmount}` },
+            {
+              x: parallaxAmount,
+              ease: "none",
+              scrollTrigger: {
+                trigger: headlineRef.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.2,
+              },
+            }
+          );
+        }
       }
 
       if (cards.length > 0 && cardsBlockRef.current) {
@@ -196,9 +216,10 @@ export default function ParadoxSection() {
           <span className="headline-line-1 block will-change-transform pb-2">
             La realidad
           </span>
-          <span className="headline-line-2 block text-gold italic font-normal will-change-transform pb-2 self-end sm:self-auto">
-            digital es simple
-          </span>
+          <span className="headline-line-2 block text-gold italic font-normal will-change-transform pb-2 self-start sm:self-auto">
+  <span className="block">digital</span>
+  <span className="block mt-2">es simple</span>
+</span>
         </h2>
       </div>
 
