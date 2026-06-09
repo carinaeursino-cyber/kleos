@@ -77,27 +77,29 @@ export default function PortfolioSection() {
           trigger: sectionRef.current,
           start: "top top",
           end: isMobile ? "+=120%" : "+=180%",
-          pin: true,
+          pin: !isMobile,
           scrub: 1.2,
           anticipatePin: 1,
         },
       });
 
-      gsap.set(headerRef.current, { opacity: 1, y: 0 });
-      gsap.set(text1Ref.current, { opacity: 1, y: 0 });
-      gsap.set(mockup1Ref.current, { y: "0vh", scale: 1, opacity: 1 });
+      if (!isMobile) {
+  gsap.set(headerRef.current, { opacity: 1, y: 0 });
+  gsap.set(text1Ref.current, { opacity: 1, y: 0 });
+  gsap.set(mockup1Ref.current, { y: "0vh", scale: 1, opacity: 1 });
 
-      gsap.set(text2Ref.current, { opacity: 0, y: 30 });
-      gsap.set(mockup2Ref.current, { y: "100vh", scale: 0.92, opacity: 0 });
+  gsap.set(text2Ref.current, { opacity: 0, y: 30 });
+  gsap.set(mockup2Ref.current, { y: "100vh", scale: 0.92, opacity: 0 });
 
-      tl
-        .to({}, { duration: 0.55 })
-        .to(mockup1Ref.current, { y: "-100vh", scale: 0.92, opacity: 0, duration: 1.05 })
-        .to(text1Ref.current, { opacity: 0, y: -24, duration: 0.8 }, "-=0.9")
-        .to(headerRef.current, { opacity: 0, y: -24, duration: 0.75 }, "-=0.9")
-        .to(text2Ref.current, { opacity: 1, y: 0, duration: 0.9 }, "-=0.35")
-        .to(mockup2Ref.current, { y: "0vh", scale: 1, opacity: 1, duration: 1.05 }, "-=0.8")
-        .to({}, { duration: 0.75 });
+  tl
+    .to({}, { duration: 0.55 })
+    .to(mockup1Ref.current, { y: "-100vh", scale: 0.92, opacity: 0, duration: 1.05 })
+    .to(text1Ref.current, { opacity: 0, y: -24, duration: 0.8 }, "-=0.9")
+    .to(headerRef.current, { opacity: 0, y: -24, duration: 0.75 }, "-=0.9")
+    .to(text2Ref.current, { opacity: 1, y: 0, duration: 0.9 }, "-=0.35")
+    .to(mockup2Ref.current, { y: "0vh", scale: 1, opacity: 1, duration: 1.05 }, "-=0.8")
+    .to({}, { duration: 0.75 });
+}
     }, sectionRef);
 
     return () => ctx.revert();
@@ -110,6 +112,14 @@ export default function PortfolioSection() {
       className="relative bg-[#050505] text-white border-t border-white/10 overflow-hidden font-sans flex items-center justify-center"
     >
       <style>{`
+        @keyframes luxuryZoom {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.08); }
+        }
+        .luxury-image-active {
+          animation: luxuryZoom 3.2s ease-out forwards;
+        }
+
         @keyframes behance3D {
           0%, 100% { transform: perspective(1500px) rotateX(8deg) rotateY(-14deg) rotateZ(-1deg) translateY(0px); }
           50% { transform: perspective(1500px) rotateX(15deg) rotateY(12deg) rotateZ(1deg) translateY(-16px); }
@@ -178,7 +188,7 @@ export default function PortfolioSection() {
         Autoridad
       </div>
 
-      <div className="h-screen w-full flex flex-col justify-start pt-6 sm:pt-8 md:pt-10 pb-4 sm:pb-6 px-4 sm:px-6 md:px-12 lg:px-24 max-w-6xl mx-auto relative overflow-y-auto md:overflow-hidden z-10">
+      <div className="min-h-screen md:h-screen w-full flex flex-col justify-start pt-6 sm:pt-8 md:pt-10 pb-4 sm:pb-6 px-4 sm:px-6 md:px-12 lg:px-24 max-w-6xl mx-auto relative z-10">
         {/* Section header */}
         <div ref={headerRef} className="w-full select-none pb-1 max-w-4xl shrink-0">
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-neutral-100 font-light">
@@ -190,79 +200,233 @@ export default function PortfolioSection() {
           </p>
         </div>
 
-        <div className="flex flex-col md:grid md:grid-cols-12 gap-4 sm:gap-6 md:gap-12 md:gap-16 items-center w-full flex-1 min-h-0 mt-2 sm:mt-4 md:mt-6 relative">
+        {/* ═══════════════════════════════════════════
+            MOBILE LAYOUT — Imágenes luxury sin mockup
+        ═══════════════════════════════════════════ */}
+        <div className="flex md:hidden flex-col items-center flex-1 min-h-0 mt-10 gap-5 relative">
 
-          {/* RIGHT STACK — Texto primero en mobile */}
-          <div className="md:col-span-6 min-h-[32vh] md:min-h-0 md:h-full relative flex items-center justify-center order-first md:order-none">
-            {/* TEXT 01 */}
+          {/* Showcase 01 — Embajadoras */}
+          <div className="w-full max-w-sm flex flex-col items-center gap-4">
+            <div className="text-center select-none">
+              <span className="font-mono text-[10px] text-gold tracking-[0.15em] uppercase font-bold block mb-2">
+                01 / CASO VISUAL
+              </span>
+              <h3 className="font-serif text-2xl text-white leading-[1.05] tracking-tight">
+                Embajadoras <span className="text-gold italic font-normal">Digitales IA</span>
+              </h3>
+            </div>
+
+            {/* Luxury image showcase */}
+            <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden border border-gold/20 shadow-[0_0_40px_rgba(197,160,89,0.08)]">
+              {MODELS.map((model, idx) => (
+                <div
+                  key={idx}
+                  className="absolute inset-0 transition-opacity duration-[1200ms] ease-in-out"
+                  style={{
+                    opacity: currentModelIdx === idx ? 1 : 0,
+                    zIndex: currentModelIdx === idx ? 10 : 1,
+                  }}
+                >
+                  <img
+                    src={model}
+                    alt="Modelo Exclusiva KLEOS"
+                    className={`w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.03] ${
+                      currentModelIdx === idx ? "luxury-image-active" : ""
+                    }`}
+                  />
+                </div>
+              ))}
+              {/* Gradient overlay bottom */}
+              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-20" />
+              {/* KLEOS IA label */}
+              <span className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-3 py-1 rounded-sm bg-white/10 backdrop-blur-sm text-[7px] font-mono uppercase tracking-[0.2em] text-white/60">
+                KLEOS IA
+              </span>
+              {/* Gold shimmer line top */}
+              <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent z-20" />
+              {/* Progress bar */}
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/5 z-30">
+                <div
+                  className="h-full bg-gradient-to-r from-gold/60 to-gold transition-all duration-300"
+                  style={{ width: `${((currentModelIdx + 1) / MODELS.length) * 100}%` }}
+                />
+              </div>
+            </div>
+
+            <p className="font-sans text-neutral-400 text-[10px] font-light leading-relaxed text-center max-w-xs">
+              Diseñamos embajadoras digitales hiperrealistas para representar marcas, conectar con audiencias y potenciar su presencia digital.
+            </p>
+            <div className="flex items-center gap-2 text-[7px] font-mono text-gold tracking-widest uppercase">
+              <span>{currentModelIdx + 1} / {MODELS.length}</span>
+              <div className="w-px h-3 bg-gold/30" />
+              <span>EMBAJADORA DIGITAL</span>
+            </div>
+          </div>
+
+          {/* Showcase 02 — Diseño Web */}
+          <div className="w-full max-w-sm flex flex-col items-center gap-4 mt-10">
+            <div className="text-center select-none">
+              <span className="font-mono text-[10px] text-gold tracking-[0.15em] uppercase font-bold block mb-2">
+                02 / CASO VISUAL
+              </span>
+              <h3 className="font-serif text-2xl text-white leading-[1.05] tracking-tight">
+                Diseño Web <span className="text-gold italic font-normal font-light">Personalizado</span>
+              </h3>
+            </div>
+
+            {/* Luxury web showcase */}
+            <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-gold/20 shadow-[0_0_40px_rgba(197,160,89,0.08)]">
+              {WEBS.map((web, idx) => (
+                <div
+                  key={idx}
+                  className="absolute inset-0 transition-opacity duration-[1200ms] ease-in-out"
+                  style={{
+                    opacity: currentWebIdx === idx ? 1 : 0,
+                    zIndex: currentWebIdx === idx ? 10 : 1,
+                  }}
+                >
+                  <img
+                    src={web}
+                    alt="Diseño Web Personalizado KLEOS"
+                    className={`w-full h-full object-cover object-top filter brightness-[0.92] contrast-[1.03] ${
+                      currentWebIdx === idx ? "luxury-image-active" : ""
+                    }`}
+                  />
+                </div>
+              ))}
+              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-20" />
+              <span className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-3 py-1 rounded-sm bg-white/10 backdrop-blur-sm text-[7px] font-mono uppercase tracking-[0.2em] text-white/60">
+                KLEOS DIGITAL STUDIO
+              </span>
+              <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent z-20" />
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/5 z-30">
+                <div
+                  className="h-full bg-gradient-to-r from-gold/60 to-gold transition-all duration-300"
+                  style={{ width: `${((currentWebIdx + 1) / WEBS.length) * 100}%` }}
+                />
+              </div>
+            </div>
+
+            <p className="font-sans text-neutral-400 text-[10px] font-light leading-relaxed text-center max-w-xs">
+              Diseñamos presencias digitales a medida para cualquier nicho, sector o escala. Esculpimos herramientas de conversión sin fricción que reescriben tu autoridad ante el mercado premium.
+            </p>
+            <div className="flex items-center gap-2 text-[7px] font-mono text-gold tracking-widest uppercase">
+              <span>{currentWebIdx + 1} / {WEBS.length}</span>
+              <div className="w-px h-3 bg-gold/30" />
+              <span>SITIO WEB A MEDIDA</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════
+            DESKTOP LAYOUT — Original con mockups
+        ═══════════════════════════════════════════ */}
+        <div className="hidden md:grid grid-cols-12 gap-6 md:gap-12 md:gap-16 items-center w-full flex-1 min-h-0 mt-3 sm:mt-4 md:mt-6 relative">
+          {/* LEFT STACK */}
+          <div className="col-span-6 h-full relative flex items-center justify-center">
+            {/* MOCKUP 01: iPhone 14 Pro Max */}
             <div
-              ref={text1Ref}
-              className="static md:absolute md:inset-0 flex flex-col justify-start pt-2 md:justify-center text-center md:text-left select-none pointer-events-none md:translate-x-[16px]"
+              ref={mockup1Ref}
+              className="absolute w-[225px] lg:w-[235px] aspect-[9/19.5] will-change-transform z-10 translate-x-[24px]"
             >
-              <div className="space-y-3 sm:space-y-4 md:space-y-6 max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-0">
-                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-gold tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold block">
-                  01 / CASO VISUAL
-                </span>
-                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
-                  Embajadoras <br />
-                  <span className="text-gold italic font-normal">Digitales IA</span>
-                </h3>
-                <p className="font-sans text-neutral-400 text-[10px] sm:text-xs md:text-sm md:text-base font-light leading-relaxed">
-                  Diseñamos embajadoras digitales hiperrealistas para representar marcas, conectar con audiencias y potenciar su presencia digital.
-                </p>
-
-                <div className="pt-3 sm:pt-4 space-y-1.5 sm:space-y-2 select-none">
-                  <div className="space-y-1 sm:space-y-1.5">
-                    <div className="flex justify-between text-[7px] sm:text-[8px] font-mono text-gold tracking-widest uppercase">
-                      <span>EMBAJADORA DIGITAL</span>
-                      <span>{currentModelIdx + 1} / {MODELS.length}</span>
+              <div className="rotate-3d-iphone-17 w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
+                <div className="absolute inset-6 bg-black rounded-[52px] blur-2xl pointer-events-none" style={{ transform: "translateZ(-30px)", opacity: 0.95 }} />
+                <div
+                  className="absolute inset-0 rounded-[52px] bg-gradient-to-b from-[#8A8A8E] via-[#6E6E73] to-[#48484A] shadow-[inset_0_1px_0_rgba(255,255,255,0.15),_inset_0_-1px_0_rgba(0,0,0,0.3),_0_0_0_0.5px_rgba(255,255,255,0.08)] border border-[#5A5A5E]/60"
+                  style={{ transform: "translateZ(-10px)", transformStyle: "preserve-3d" }}
+                >
+                  <div className="absolute left-[-3px] top-[18%] w-[3px] h-[5%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-3px] top-[26%] w-[3px] h-[3%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-3px] top-[32%] w-[3px] h-[3%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute left-[-3px] top-[13%] w-[3px] h-[2.5%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+                  <div className="absolute right-[-3px] top-[25%] w-[3px] h-[7%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-r-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
+                </div>
+                <div
+                  className="absolute inset-[3px] rounded-[46px] overflow-hidden bg-neutral-950 border border-[#2A2A2E]/50 shadow-[inset_0_0_0_0.5px_rgba(255,255,255,0.05)]"
+                  style={{ transform: "translateZ(10px)", transformStyle: "preserve-3d" }}
+                >
+                  <div className="absolute inset-0 bg-black">
+                    <div className="absolute top-2.5 left-3 right-3 z-40 flex items-center justify-between select-none">
+                      <span className="px-2 py-1 rounded-full bg-white/10 border border-white/8 text-[6px] font-mono text-neutral-300 tracking-tight">Cancelar</span>
+                      <span className="px-2 py-1 rounded-full bg-[#F2D34B] text-[6px] font-mono font-bold text-black tracking-tight shadow-[0_0_12px_rgba(242,211,75,0.25)]">Listo</span>
                     </div>
-                    <div className="w-48 sm:w-64 h-[1px] bg-white/10 relative overflow-hidden">
-                      <div
-                        className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300"
-                        style={{ width: `${((currentModelIdx + 1) / MODELS.length) * 100}%` }}
-                      />
+                    <div className="absolute top-8 left-3 right-3 z-40 flex items-center justify-between select-none">
+                      <div className="flex items-center gap-1">
+                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[8px] text-neutral-400">↶</span>
+                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[8px] text-neutral-400">↷</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[8px] text-neutral-400">◎</span>
+                        <span className="w-6 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[8px] text-neutral-400">•••</span>
+                      </div>
+                    </div>
+                    <div className="absolute left-[13px] right-[13px] top-[70px] bottom-[108px] rounded-[18px] overflow-hidden bg-[#030303]">
+                      {MODELS.map((model, idx) => (
+                        <div
+                          key={idx}
+                          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+                          style={{ opacity: currentModelIdx === idx ? 1 : 0, zIndex: currentModelIdx === idx ? 10 : 1 }}
+                        >
+                          <img src={model} alt="Modelo Exclusiva KLEOS" className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.03]" />
+                        </div>
+                      ))}
+                      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-20" />
+                      <span className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 px-2 py-0.5 rounded-sm bg-white/10 text-[5px] font-mono uppercase tracking-[0.18em] text-white/55">KLEOS IA</span>
+                    </div>
+                    <div className="absolute left-4 right-4 bottom-[56px] z-40 h-9 flex items-center gap-1 overflow-hidden select-none">
+                      {MODELS.concat(MODELS).slice(0, 10).map((model, idx) => (
+                        <div
+                          key={idx}
+                          className={`relative h-8 w-5 shrink-0 rounded-[3px] overflow-hidden border ${idx % MODELS.length === currentModelIdx ? "border-[#F2D34B]" : "border-white/10"}`}
+                        >
+                          <img src={model} alt="Frame IA" className="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-[#F2D34B] shadow-[0_0_10px_rgba(242,211,75,0.75)]" />
+                    </div>
+                    <div className="absolute left-0 right-0 bottom-0 z-40 h-[52px] bg-black/95 border-t border-white/8 flex items-center justify-center gap-4 select-none">
+                      {["Estilo", "Ajustar", "Recortar", "Borrar"].map((tool) => (
+                        <div key={tool} className="flex flex-col items-center gap-1 text-neutral-500">
+                          <span className="w-5 h-5 rounded-full border border-white/10 bg-white/[0.04]" />
+                          <span className="font-mono text-[5px] tracking-tight">{tool}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <div className="hidden sm:flex items-center gap-2 text-[7px] sm:text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
-                    <span>IDENTIDAD VISUAL · PRESENCIA DE MARCA · REPRESENTACIÓN IA</span>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-50 mix-blend-overlay" />
+                  <div className="absolute top-3 left-1/2 -translate-x-1/2 w-26 h-5.5 bg-black rounded-full z-50 flex items-center justify-between px-3 shadow-inner" style={{ transform: "translateZ(14px)" }} />
+                  <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-16 h-[3px] rounded-full bg-white/20 z-50" />
                 </div>
               </div>
             </div>
 
-            {/* TEXT 02 */}
+            {/* TEXT 02 — desktop */}
             <div
               ref={text2Ref}
-              className="static md:absolute md:inset-0 flex flex-col justify-start pt-2 md:justify-center text-center md:text-left select-none pointer-events-none"
+              className="absolute inset-0 flex flex-col justify-center text-left select-none pointer-events-none"
             >
-              <div className="space-y-3 sm:space-y-4 md:space-y-6 max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-0 md:pr-10 lg:pr-14">
-                <span className="font-mono text-[10px] sm:text-xs md:text-sm text-gold tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold block whitespace-nowrap">
+              <div className="space-y-4 md:space-y-6 max-w-md px-6 md:px-0 md:pr-10 lg:pr-14">
+                <span className="font-mono text-xs md:text-sm text-gold tracking-[0.2em] uppercase font-bold block whitespace-nowrap">
                   02 / CASO VISUAL
                 </span>
-                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
+                <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
                   Diseño Web <br />
                   <span className="text-gold italic font-normal font-light">Personalizado</span>
                 </h3>
-                <p className="font-sans text-neutral-400 text-[10px] sm:text-xs md:text-sm lg:text-base font-light leading-relaxed">
+                <p className="font-sans text-neutral-400 text-xs md:text-sm lg:text-base font-light leading-relaxed">
                   Diseñamos presencias digitales a medida para cualquier nicho, sector o escala. Esculpimos herramientas de conversión sin fricción que reescriben tu autoridad ante el mercado premium.
                 </p>
-
-                <div className="pt-3 sm:pt-4 space-y-1.5 sm:space-y-2 select-none">
-                  <div className="space-y-1 sm:space-y-1.5">
-                    <div className="flex justify-between text-[7px] sm:text-[8px] font-mono text-gold tracking-widest uppercase">
+                <div className="pt-4 space-y-2 select-none">
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-[8px] font-mono text-gold tracking-widest uppercase">
                       <span>SITIO WEB A MEDIDA</span>
                       <span>{currentWebIdx + 1} / {WEBS.length}</span>
                     </div>
-                    <div className="w-48 sm:w-64 h-[1px] bg-white/10 relative overflow-hidden">
-                      <div
-                        className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300"
-                        style={{ width: `${((currentWebIdx + 1) / WEBS.length) * 100}%` }}
-                      />
+                    <div className="w-64 h-[1px] bg-white/10 relative overflow-hidden">
+                      <div className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300" style={{ width: `${((currentWebIdx + 1) / WEBS.length) * 100}%` }} />
                     </div>
                   </div>
-                  <div className="hidden sm:flex items-center gap-2 text-[7px] sm:text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
+                  <div className="flex items-center gap-2 text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
                     <span>ARQUITECTURA UX · AUTORIDAD DIGITAL · CONVERSIÓN</span>
                   </div>
@@ -271,157 +435,67 @@ export default function PortfolioSection() {
             </div>
           </div>
 
-          {/* LEFT STACK — Mockup debajo en mobile */}
-          <div className="md:col-span-6 min-h-[50vh] md:min-h-0 md:h-full relative flex items-center justify-center order-last md:order-none">
-            {/* MOCKUP 01: iPhone 14 Pro Max / Embajadoras */}
+          {/* RIGHT STACK — desktop */}
+          <div className="col-span-6 h-full relative flex items-center justify-center">
+            {/* TEXT 01 — desktop */}
             <div
-              ref={mockup1Ref}
-              className="absolute w-[340px] sm:w-[210px] md:w-[225px] lg:w-[235px] aspect-[9/19.5] will-change-transform z-10 md:translate-x-[24px]"
+              ref={text1Ref}
+              className="absolute inset-0 flex flex-col justify-center text-left select-none pointer-events-none translate-x-[16px]"
             >
-              <div className="rotate-3d-iphone-17 w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
-                <div
-                  className="absolute inset-6 bg-black rounded-[52px] blur-2xl pointer-events-none"
-                  style={{ transform: "translateZ(-30px)", opacity: 0.95 }}
-                />
-
-                {/* Titanium chassis — iPhone 14 Pro Max */}
-                <div
-                  className="absolute inset-0 rounded-[52px] bg-gradient-to-b from-[#8A8A8E] via-[#6E6E73] to-[#48484A] shadow-[inset_0_1px_0_rgba(255,255,255,0.15),_inset_0_-1px_0_rgba(0,0,0,0.3),_0_0_0_0.5px_rgba(255,255,255,0.08)] border border-[#5A5A5E]/60"
-                  style={{ transform: "translateZ(-10px)", transformStyle: "preserve-3d" }}
-                >
-                  {/* Left side: Volume buttons */}
-                  <div className="absolute left-[-3px] top-[18%] w-[3px] h-[5%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
-                  <div className="absolute left-[-3px] top-[26%] w-[3px] h-[3%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
-                  <div className="absolute left-[-3px] top-[32%] w-[3px] h-[3%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
-
-                  {/* Left side: Action button */}
-                  <div className="absolute left-[-3px] top-[13%] w-[3px] h-[2.5%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-l-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
-
-                  {/* Right side: Power button */}
-                  <div className="absolute right-[-3px] top-[25%] w-[3px] h-[7%] bg-gradient-to-b from-[#9A9A9E] to-[#6E6E73] rounded-r-sm shadow-sm" style={{ transform: "translateZ(1px)" }} />
-                </div>
-
-                {/* Screen */}
-                <div
-                  className="absolute inset-[3px] rounded-[46px] overflow-hidden bg-neutral-950 border border-[#2A2A2E]/50 shadow-[inset_0_0_0_0.5px_rgba(255,255,255,0.05)]"
-                  style={{ transform: "translateZ(10px)", transformStyle: "preserve-3d" }}
-                >
-                  {/* iOS-style editing interface */}
-                  <div className="absolute inset-0 bg-black">
-                    <div className="absolute top-2.5 left-3 right-3 z-40 flex items-center justify-between select-none">
-                      <span className="px-2 py-1 rounded-full bg-white/10 border border-white/8 text-[5px] sm:text-[6px] font-mono text-neutral-300 tracking-tight">
-                        Cancelar
-                      </span>
-                      <span className="px-2 py-1 rounded-full bg-[#F2D34B] text-[5px] sm:text-[6px] font-mono font-bold text-black tracking-tight shadow-[0_0_12px_rgba(242,211,75,0.25)]">
-                        Listo
-                      </span>
+              <div className="space-y-4 md:space-y-6 max-w-md px-6 md:px-0">
+                <span className="font-mono text-xs md:text-sm text-gold tracking-[0.2em] uppercase font-bold block">
+                  01 / CASO VISUAL
+                </span>
+                <h3 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-[1.05] tracking-tight">
+                  Embajadoras <br />
+                  <span className="text-gold italic font-normal">Digitales IA</span>
+                </h3>
+                <p className="font-sans text-neutral-400 text-xs md:text-sm md:text-base font-light leading-relaxed">
+                  Diseñamos embajadoras digitales hiperrealistas para representar marcas, conectar con audiencias y potenciar su presencia digital.
+                </p>
+                <div className="pt-4 space-y-2 select-none">
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between text-[8px] font-mono text-gold tracking-widest uppercase">
+                      <span>EMBAJADORA DIGITAL</span>
+                      <span>{currentModelIdx + 1} / {MODELS.length}</span>
                     </div>
-
-                    <div className="absolute top-8 left-3 right-3 z-40 flex items-center justify-between select-none">
-                      <div className="flex items-center gap-1">
-                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[6px] sm:text-[8px] text-neutral-400">↶</span>
-                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[6px] sm:text-[8px] text-neutral-400">↷</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="w-5 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[6px] sm:text-[8px] text-neutral-400">◎</span>
-                        <span className="w-6 h-4 rounded-full bg-white/10 border border-white/8 flex items-center justify-center text-[6px] sm:text-[8px] text-neutral-400">•••</span>
-                      </div>
-                    </div>
-
-                    <div className="absolute left-[10px] sm:left-[13px] right-[10px] sm:right-[13px] top-[56px] sm:top-[70px] bottom-[88px] sm:bottom-[108px] rounded-[14px] sm:rounded-[18px] overflow-hidden bg-[#030303]">
-                      {MODELS.map((model, idx) => (
-                        <div
-                          key={idx}
-                          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-                          style={{
-                            opacity: currentModelIdx === idx ? 1 : 0,
-                            zIndex: currentModelIdx === idx ? 10 : 1,
-                          }}
-                        >
-                          <img
-                            src={model}
-                            alt="Modelo Exclusiva KLEOS"
-                            className="w-full h-full object-cover object-center filter brightness-[0.92] contrast-[1.03]"
-                          />
-                        </div>
-                      ))}
-                      <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-20" />
-                      <span className="absolute bottom-1.5 sm:bottom-2 left-1/2 -translate-x-1/2 z-30 px-2 py-0.5 rounded-sm bg-white/10 text-[4px] sm:text-[5px] font-mono uppercase tracking-[0.18em] text-white/55">
-                        KLEOS IA
-                      </span>
-                    </div>
-
-                    <div className="absolute left-3 sm:left-4 right-3 sm:right-4 bottom-[44px] sm:bottom-[56px] z-40 h-7 sm:h-9 flex items-center gap-1 overflow-hidden select-none">
-                      {MODELS.concat(MODELS).slice(0, 10).map((model, idx) => (
-                        <div
-                          key={idx}
-                          className={`relative h-6 w-4 sm:h-8 sm:w-5 shrink-0 rounded-[3px] overflow-hidden border ${
-                            idx % MODELS.length === currentModelIdx ? "border-[#F2D34B]" : "border-white/10"
-                          }`}
-                        >
-                          <img src={model} alt="Frame IA" className="w-full h-full object-cover" />
-                        </div>
-                      ))}
-                      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-[#F2D34B] shadow-[0_0_10px_rgba(242,211,75,0.75)]" />
-                    </div>
-
-                    <div className="absolute left-0 right-0 bottom-0 z-40 h-[42px] sm:h-[52px] bg-black/95 border-t border-white/8 flex items-center justify-center gap-3 sm:gap-4 select-none">
-                      {["Estilo", "Ajustar", "Recortar", "Borrar"].map((tool) => (
-                        <div key={tool} className="flex flex-col items-center gap-0.5 sm:gap-1 text-neutral-500">
-                          <span className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-white/10 bg-white/[0.04]" />
-                          <span className="font-mono text-[4px] sm:text-[5px] tracking-tight">{tool}</span>
-                        </div>
-                      ))}
+                    <div className="w-64 h-[1px] bg-white/10 relative overflow-hidden">
+                      <div className="absolute left-0 top-0 bottom-0 bg-gold transition-all duration-300" style={{ width: `${((currentModelIdx + 1) / MODELS.length) * 100}%` }} />
                     </div>
                   </div>
-
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-50 mix-blend-overlay" />
-                  {/* Dynamic Island */}
-                  <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-[28%] h-[4.5%] bg-black rounded-full z-50 shadow-[0_0_4px_rgba(0,0,0,0.5)]" style={{ transform: "translateX(-50%) translateZ(14px)" }} />
-                  {/* Home indicator */}
-                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[30%] h-[2px] rounded-full bg-white/25 z-50" />
+                  <div className="flex items-center gap-2 text-[8px] font-mono text-[#E5C383]/70 tracking-widest uppercase">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E5C383]/70 animate-pulse" />
+                    <span>IDENTIDAD VISUAL · PRESENCIA DE MARCA · REPRESENTACIÓN IA</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* MOCKUP 02 */}
+            {/* MOCKUP 02 — desktop */}
             <div
               ref={mockup2Ref}
-              className="absolute w-[260px] sm:w-[320px] md:w-[470px] lg:w-[520px] xl:w-[550px] aspect-[16/10] will-change-transform z-10 md:-right-4 lg:-right-8 xl:-right-10 mt-2 sm:mt-4 md:mt-8 lg:mt-10"
+              className="absolute w-[470px] lg:w-[520px] xl:w-[550px] aspect-[16/10] will-change-transform z-10 md:-right-4 lg:-right-8 xl:-right-10 mt-8 lg:mt-10"
             >
               <div className="rotate-3d-tv w-full h-full relative" style={{ transformStyle: "preserve-3d" }}>
-                <div className="absolute inset-3 sm:inset-4 bg-black/75 rounded-2xl sm:rounded-3xl blur-2xl" style={{ transform: "translateZ(-25px)", opacity: 0.95 }} />
-
+                <div className="absolute inset-4 bg-black/75 rounded-3xl blur-2xl" style={{ transform: "translateZ(-25px)", opacity: 0.95 }} />
                 <div
-                  className="relative w-full h-full rounded-2xl sm:rounded-3xl bg-[#161617] p-1.5 sm:p-2 shadow-[0_30px_70px_rgba(0,0,0,0.85),_0_0_0_1px_rgba(197,160,89,0.16),_inset_0_0_0_1px_rgba(245,211,141,0.08)] border border-gold/35 flex flex-col overflow-hidden group/tv hover:shadow-[0_30px_70px_rgba(197,160,89,0.18)] transition-shadow duration-700 ease-out"
+                  className="relative w-full h-full rounded-3xl bg-[#161617] p-2 shadow-[0_30px_70px_rgba(0,0,0,0.85),_0_0_0_1px_rgba(197,160,89,0.16),_inset_0_0_0_1px_rgba(245,211,141,0.08)] border border-gold/35 flex flex-col overflow-hidden group/tv hover:shadow-[0_30px_70px_rgba(197,160,89,0.18)] transition-shadow duration-700 ease-out"
                   style={{ transform: "translateZ(0px)", transformStyle: "preserve-3d" }}
                 >
                   <div className="golden-trace-frame" />
-                  <div
-                    className="w-full h-full rounded-xl sm:rounded-2xl overflow-hidden relative bg-[#050505] border border-black shadow-inner"
-                    style={{ transform: "translateZ(6px)" }}
-                  >
+                  <div className="w-full h-full rounded-2xl overflow-hidden relative bg-[#050505] border border-black shadow-inner" style={{ transform: "translateZ(6px)" }}>
                     {WEBS.map((web, idx) => (
                       <div
                         key={idx}
                         className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-                        style={{
-                          opacity: currentWebIdx === idx ? 1 : 0,
-                          zIndex: currentWebIdx === idx ? 10 : 1,
-                        }}
+                        style={{ opacity: currentWebIdx === idx ? 1 : 0, zIndex: currentWebIdx === idx ? 10 : 1 }}
                       >
-                        <img
-                          src={web}
-                          alt="Diseño Web Personalizado KLEOS"
-                          className="w-full h-full object-cover object-top filter brightness-[0.92] contrast-[1.03]"
-                        />
+                        <img src={web} alt="Diseño Web Personalizado KLEOS" className="w-full h-full object-cover object-top filter brightness-[0.92] contrast-[1.03]" />
                       </div>
                     ))}
-
                     <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none z-20 mix-blend-overlay" />
-
-                    <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 bg-[#050505]/45 backdrop-blur-md border border-white/5 p-1.5 sm:p-2 rounded-lg sm:rounded-xl z-20 select-none">
-                      <span className="font-mono text-[5px] sm:text-[6px] md:text-[7px] text-gold tracking-widest uppercase font-bold">KLEOS DIGITAL STUDIO</span>
+                    <div className="absolute bottom-3 left-3 bg-[#050505]/45 backdrop-blur-md border border-white/5 p-2 rounded-xl z-20 select-none">
+                      <span className="font-mono text-[6px] md:text-[7px] text-gold tracking-widest uppercase font-bold">KLEOS DIGITAL STUDIO</span>
                     </div>
                   </div>
                 </div>
