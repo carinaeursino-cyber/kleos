@@ -190,7 +190,6 @@ function KleosIsotype() {
             width:    "100%",
             height:   "100%",
             overflow: "visible",
-            // Glow inicial (antes del pulse)
             filter: [
               "drop-shadow(0 0  6px rgba(212,175,55,0.90))",
               "drop-shadow(0 0 18px rgba(212,175,55,0.55))",
@@ -199,7 +198,6 @@ function KleosIsotype() {
           }}
         >
           <defs>
-            {/* Filtro inner-glow — copiado exacto de LambdaCanvas */}
             <filter id="lc-inner-glow" x="-40%" y="-40%" width="180%" height="180%">
               <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
               <feColorMatrix
@@ -394,9 +392,7 @@ export default function BrandingPhilosophies() {
           margin:         "0 auto",
           width:          "100%",
         }}
-        // Responsive: column on mobile, row on desktop
         className="flex flex-col items-center text-center gap-12 px-6 py-16 md:flex-row md:items-center md:text-left md:gap-0 md:px-0 md:py-0"
-        // Desktop padding via style for the original spacing
       >
           <div
             style={{
@@ -407,9 +403,9 @@ export default function BrandingPhilosophies() {
               flexDirection: "row",
               alignItems: "center",
               gap: 0,
-              padding: "10vw 8vw 12vw",
+              padding: "8vw 10vw 10vw",
             }}
-            className="!flex-col md:!flex-row !items-center md:!items-center !text-center md:!text-left !gap-12 md:!gap-0 !px-8 md:!px-0 !py-16 md:!py-0"
+            className="!flex-col md:!flex-row !items-center md:!items-center !text-center md:!text-left !gap-12 md:!gap-0 !px-8 md:!px-[10vw] !py-16 md:!py-[10vw]"
           >
             {/* ══ COLUMNA IZQUIERDA — Texto ══ */}
             <div
@@ -441,7 +437,7 @@ export default function BrandingPhilosophies() {
                 ref={quoteRef}
                 style={{
                   fontFamily:    "Playfair Display, Georgia, serif",
-                  fontSize:      "clamp(2rem, 5.5vw, 4.25rem)",
+                  fontSize:      "clamp(2.5rem, 4.5vw, 3.5rem)",
                   fontWeight:    400,
                   lineHeight:    1.22,
                   letterSpacing: "-0.01em",
@@ -495,8 +491,8 @@ export default function BrandingPhilosophies() {
                 display:        "flex",
                 alignItems:     "center",
                 justifyContent: "center",
-                width:          "clamp(200px, 26vw, 360px)",
-                height:         "clamp(200px, 26vw, 360px)",
+                width:          "clamp(180px, 22vw, 320px)",
+                height:         "clamp(180px, 22vw, 320px)",
                 marginLeft:     "auto",
                 paddingLeft:    "3vw",
               }}
